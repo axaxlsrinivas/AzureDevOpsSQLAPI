@@ -1,0 +1,1352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="CLPDUMPModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AccountSiteMaster">
+          <Key>
+            <PropertyRef Name="AccountId" />
+            <PropertyRef Name="SiteId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SiteId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="100" />
+          <Property Name="CompanyAddress" Type="nvarchar" MaxLength="500" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Region" Type="nvarchar" MaxLength="50" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="PostalCode" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="AccountSiteTempMaster">
+          <Key>
+            <PropertyRef Name="AccountId" />
+            <PropertyRef Name="SiteId" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="AccountId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SiteId" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="100" />
+          <Property Name="CompanyAddress" Type="nvarchar" MaxLength="500" />
+          <Property Name="SiteName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Region" Type="nvarchar" MaxLength="50" />
+          <Property Name="City" Type="nvarchar" MaxLength="50" />
+          <Property Name="State" Type="nvarchar" MaxLength="50" />
+          <Property Name="Country" Type="nvarchar" MaxLength="50" />
+          <Property Name="PostalCode" Type="nvarchar" MaxLength="15" />
+        </EntityType>
+        <EntityType Name="Authorization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HotWorkId" Type="int" />
+          <Property Name="AuthorizerName" Type="nvarchar" MaxLength="100" />
+          <Property Name="Department" Type="nvarchar" MaxLength="100" />
+          <Property Name="Location" Type="nvarchar" MaxLength="100" />
+          <Property Name="AuthorizationDateTime" Type="datetime" />
+          <Property Name="IsHighHazardArea" Type="nvarchar" MaxLength="10" />
+          <Property Name="AreaSupervisorName" Type="nvarchar" MaxLength="100" />
+          <Property Name="AreaSupervisorDepartment" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="FirePrevention">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HotWorkId" Type="int" />
+          <Property Name="NearestFireAlarmLocation" Type="nvarchar" MaxLength="100" />
+          <Property Name="NearestPhone" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="FireWatchPrevention">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirePreventionId" Type="int" />
+          <Property Name="PersonName" Type="nvarchar" MaxLength="100" />
+          <Property Name="StartTime" Type="time" Precision="7" />
+          <Property Name="EndTime" Type="time" Precision="7" />
+          <Property Name="FireWatchType" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="HandHeldMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+        </EntityType>
+        <EntityType Name="HotWork">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HotWorkMobileId" Type="int" />
+          <Property Name="AccountId" Type="nvarchar" MaxLength="50" />
+          <Property Name="SiteId" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsParent" Type="bit" />
+          <Property Name="ParentHotWorkId" Type="int" />
+          <Property Name="WorkFlowStatus" Type="nvarchar" MaxLength="20" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="HotWorkMeasure">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HotWorkId" Type="int" />
+          <Property Name="MeasureId" Type="int" />
+          <Property Name="MeasureStatus" Type="nvarchar" MaxLength="10" />
+          <Property Name="FireHoseCount" Type="int" />
+          <Property Name="FireExtinguisherCount" Type="int" />
+        </EntityType>
+        <EntityType Name="Impairment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ImpairmentMobileId" Type="int" />
+          <Property Name="AccountId" Type="nvarchar" MaxLength="50" />
+          <Property Name="SiteId" Type="nvarchar" MaxLength="50" />
+          <Property Name="IsParent" Type="bit" />
+          <Property Name="ParentImpairmentId" Type="int" />
+          <Property Name="WorkFlowStatus" Type="nvarchar" MaxLength="20" />
+          <Property Name="ImpairmentTypeId" Type="int" />
+          <Property Name="ImpairmentClassId" Type="int" />
+          <Property Name="ShutDownReasonId" Type="int" />
+          <Property Name="ImpairmentDescription" Type="nvarchar" MaxLength="200" />
+          <Property Name="StartDateTime" Type="datetime" />
+          <Property Name="EndDateTime" Type="datetime" />
+          <Property Name="CloseDateTime" Type="datetime" />
+          <Property Name="IsDeleted" Type="bit" />
+        </EntityType>
+        <EntityType Name="ImpairmentClassMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ImpairmentMeasure">
+          <Key>
+            <PropertyRef Name="ImpairmentId" />
+            <PropertyRef Name="ImpairmentMeasureMasterId" />
+          </Key>
+          <Property Name="ImpairmentId" Type="int" Nullable="false" />
+          <Property Name="ImpairmentMeasureMasterId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ImpairmentMeasureMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ImpairmentPrecaution">
+          <Key>
+            <PropertyRef Name="ImpairmentId" />
+            <PropertyRef Name="ImpairmentPrecautionMasterId" />
+          </Key>
+          <Property Name="ImpairmentId" Type="int" Nullable="false" />
+          <Property Name="ImpairmentPrecautionMasterId" Type="int" Nullable="false" />
+          <Property Name="OtherDescription" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ImpairmentPrecautionMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ImpairmentTypeMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="MeasureMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="ReporterDetail">
+          <Key>
+            <PropertyRef Name="ImpairmentId" />
+          </Key>
+          <Property Name="ImpairmentId" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="Phone" Type="nvarchar" MaxLength="20" />
+        </EntityType>
+        <EntityType Name="Scope">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HotWorkId" Type="int" />
+          <Property Name="WorkDetail" Type="nvarchar" MaxLength="500" />
+          <Property Name="WorkLocation" Type="nvarchar" MaxLength="100" />
+          <Property Name="CompanyName" Type="nvarchar" MaxLength="100" />
+          <Property Name="StartDateTime" Type="datetime" />
+          <Property Name="EndDateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="ScopePerson">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ScopeId" Type="int" />
+          <Property Name="PersonName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="ScopeWorkOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ScopeId" Type="int" />
+          <Property Name="WorkOrderId" Type="int" />
+        </EntityType>
+        <EntityType Name="ShutDownReasonMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="WorkOrderMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="WorkOrderName" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK_Authorization_HotWork">
+          <End Role="HotWork" Type="Self.HotWork" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Authorization" Type="Self.Authorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HotWork">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Authorization">
+              <PropertyRef Name="HotWorkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FirePrevention_HotWork">
+          <End Role="HotWork" Type="Self.HotWork" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FirePrevention" Type="Self.FirePrevention" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HotWork">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FirePrevention">
+              <PropertyRef Name="HotWorkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FireWatchPrevention_FirePrevention">
+          <End Role="FirePrevention" Type="Self.FirePrevention" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FireWatchPrevention" Type="Self.FireWatchPrevention" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FirePrevention">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FireWatchPrevention">
+              <PropertyRef Name="FirePreventionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HotWorkMeasure_HotWork">
+          <End Role="HotWork" Type="Self.HotWork" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HotWorkMeasure" Type="Self.HotWorkMeasure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HotWork">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HotWorkMeasure">
+              <PropertyRef Name="HotWorkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HotWorkMeasure_MeasureMaster">
+          <End Role="MeasureMaster" Type="Self.MeasureMaster" Multiplicity="0..1" />
+          <End Role="HotWorkMeasure" Type="Self.HotWorkMeasure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasureMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HotWorkMeasure">
+              <PropertyRef Name="MeasureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Impairment_Impairment">
+          <End Role="ImpairmentTypeMaster" Type="Self.ImpairmentTypeMaster" Multiplicity="0..1" />
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImpairmentTypeMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Impairment">
+              <PropertyRef Name="ImpairmentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Impairment_ImpairmentClassMaster">
+          <End Role="ImpairmentClassMaster" Type="Self.ImpairmentClassMaster" Multiplicity="0..1" />
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImpairmentClassMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Impairment">
+              <PropertyRef Name="ImpairmentClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Impairment_ShutDownReasonMaster">
+          <End Role="ShutDownReasonMaster" Type="Self.ShutDownReasonMaster" Multiplicity="0..1" />
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShutDownReasonMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Impairment">
+              <PropertyRef Name="ShutDownReasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ImpairmentMeasure_Impairment">
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ImpairmentMeasure" Type="Self.ImpairmentMeasure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Impairment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImpairmentMeasure">
+              <PropertyRef Name="ImpairmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ImpairmentMeasure_ImpairmentMeasureMaster">
+          <End Role="ImpairmentMeasureMaster" Type="Self.ImpairmentMeasureMaster" Multiplicity="1" />
+          <End Role="ImpairmentMeasure" Type="Self.ImpairmentMeasure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImpairmentMeasureMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImpairmentMeasure">
+              <PropertyRef Name="ImpairmentMeasureMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ImpairmentPrecaution_Impairment">
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ImpairmentPrecaution" Type="Self.ImpairmentPrecaution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Impairment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImpairmentPrecaution">
+              <PropertyRef Name="ImpairmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ImpairmentPrecaution_ImpairmentPrecautionMaster">
+          <End Role="ImpairmentPrecautionMaster" Type="Self.ImpairmentPrecautionMaster" Multiplicity="1" />
+          <End Role="ImpairmentPrecaution" Type="Self.ImpairmentPrecaution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImpairmentPrecautionMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImpairmentPrecaution">
+              <PropertyRef Name="ImpairmentPrecautionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReporterDetail_Impairment">
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ReporterDetail" Type="Self.ReporterDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Impairment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReporterDetail">
+              <PropertyRef Name="ImpairmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Scope_HotWork">
+          <End Role="HotWork" Type="Self.HotWork" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Scope" Type="Self.Scope" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HotWork">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Scope">
+              <PropertyRef Name="HotWorkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScopePerson_Scope">
+          <End Role="Scope" Type="Self.Scope" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ScopePerson" Type="Self.ScopePerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Scope">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScopePerson">
+              <PropertyRef Name="ScopeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScopeWorkOrder_Scope">
+          <End Role="Scope" Type="Self.Scope" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ScopeWorkOrder" Type="Self.ScopeWorkOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Scope">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScopeWorkOrder">
+              <PropertyRef Name="ScopeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScopeWorkOrder_WorkOrderMaster">
+          <End Role="WorkOrderMaster" Type="Self.WorkOrderMaster" Multiplicity="0..1" />
+          <End Role="ScopeWorkOrder" Type="Self.ScopeWorkOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkOrderMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScopeWorkOrder">
+              <PropertyRef Name="WorkOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CLPDUMPModelStoreContainer">
+          <EntitySet Name="AccountSiteMaster" EntityType="Self.AccountSiteMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AccountSiteTempMaster" EntityType="Self.AccountSiteTempMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Authorization" EntityType="Self.Authorization" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FirePrevention" EntityType="Self.FirePrevention" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FireWatchPrevention" EntityType="Self.FireWatchPrevention" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HandHeldMaster" EntityType="Self.HandHeldMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HotWork" EntityType="Self.HotWork" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HotWorkMeasure" EntityType="Self.HotWorkMeasure" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Impairment" EntityType="Self.Impairment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImpairmentClassMaster" EntityType="Self.ImpairmentClassMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImpairmentMeasure" EntityType="Self.ImpairmentMeasure" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImpairmentMeasureMaster" EntityType="Self.ImpairmentMeasureMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImpairmentPrecaution" EntityType="Self.ImpairmentPrecaution" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImpairmentPrecautionMaster" EntityType="Self.ImpairmentPrecautionMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ImpairmentTypeMaster" EntityType="Self.ImpairmentTypeMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MeasureMaster" EntityType="Self.MeasureMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReporterDetail" EntityType="Self.ReporterDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Scope" EntityType="Self.Scope" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScopePerson" EntityType="Self.ScopePerson" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ScopeWorkOrder" EntityType="Self.ScopeWorkOrder" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ShutDownReasonMaster" EntityType="Self.ShutDownReasonMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="WorkOrderMaster" EntityType="Self.WorkOrderMaster" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Authorization_HotWork" Association="Self.FK_Authorization_HotWork">
+            <End Role="HotWork" EntitySet="HotWork" />
+            <End Role="Authorization" EntitySet="Authorization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FirePrevention_HotWork" Association="Self.FK_FirePrevention_HotWork">
+            <End Role="HotWork" EntitySet="HotWork" />
+            <End Role="FirePrevention" EntitySet="FirePrevention" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FireWatchPrevention_FirePrevention" Association="Self.FK_FireWatchPrevention_FirePrevention">
+            <End Role="FirePrevention" EntitySet="FirePrevention" />
+            <End Role="FireWatchPrevention" EntitySet="FireWatchPrevention" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HotWorkMeasure_HotWork" Association="Self.FK_HotWorkMeasure_HotWork">
+            <End Role="HotWork" EntitySet="HotWork" />
+            <End Role="HotWorkMeasure" EntitySet="HotWorkMeasure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HotWorkMeasure_MeasureMaster" Association="Self.FK_HotWorkMeasure_MeasureMaster">
+            <End Role="MeasureMaster" EntitySet="MeasureMaster" />
+            <End Role="HotWorkMeasure" EntitySet="HotWorkMeasure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Impairment_Impairment" Association="Self.FK_Impairment_Impairment">
+            <End Role="ImpairmentTypeMaster" EntitySet="ImpairmentTypeMaster" />
+            <End Role="Impairment" EntitySet="Impairment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Impairment_ImpairmentClassMaster" Association="Self.FK_Impairment_ImpairmentClassMaster">
+            <End Role="ImpairmentClassMaster" EntitySet="ImpairmentClassMaster" />
+            <End Role="Impairment" EntitySet="Impairment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Impairment_ShutDownReasonMaster" Association="Self.FK_Impairment_ShutDownReasonMaster">
+            <End Role="ShutDownReasonMaster" EntitySet="ShutDownReasonMaster" />
+            <End Role="Impairment" EntitySet="Impairment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImpairmentMeasure_Impairment" Association="Self.FK_ImpairmentMeasure_Impairment">
+            <End Role="Impairment" EntitySet="Impairment" />
+            <End Role="ImpairmentMeasure" EntitySet="ImpairmentMeasure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImpairmentMeasure_ImpairmentMeasureMaster" Association="Self.FK_ImpairmentMeasure_ImpairmentMeasureMaster">
+            <End Role="ImpairmentMeasureMaster" EntitySet="ImpairmentMeasureMaster" />
+            <End Role="ImpairmentMeasure" EntitySet="ImpairmentMeasure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImpairmentPrecaution_Impairment" Association="Self.FK_ImpairmentPrecaution_Impairment">
+            <End Role="Impairment" EntitySet="Impairment" />
+            <End Role="ImpairmentPrecaution" EntitySet="ImpairmentPrecaution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImpairmentPrecaution_ImpairmentPrecautionMaster" Association="Self.FK_ImpairmentPrecaution_ImpairmentPrecautionMaster">
+            <End Role="ImpairmentPrecautionMaster" EntitySet="ImpairmentPrecautionMaster" />
+            <End Role="ImpairmentPrecaution" EntitySet="ImpairmentPrecaution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReporterDetail_Impairment" Association="Self.FK_ReporterDetail_Impairment">
+            <End Role="Impairment" EntitySet="Impairment" />
+            <End Role="ReporterDetail" EntitySet="ReporterDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Scope_HotWork" Association="Self.FK_Scope_HotWork">
+            <End Role="HotWork" EntitySet="HotWork" />
+            <End Role="Scope" EntitySet="Scope" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScopePerson_Scope" Association="Self.FK_ScopePerson_Scope">
+            <End Role="Scope" EntitySet="Scope" />
+            <End Role="ScopePerson" EntitySet="ScopePerson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScopeWorkOrder_Scope" Association="Self.FK_ScopeWorkOrder_Scope">
+            <End Role="Scope" EntitySet="Scope" />
+            <End Role="ScopeWorkOrder" EntitySet="ScopeWorkOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScopeWorkOrder_WorkOrderMaster" Association="Self.FK_ScopeWorkOrder_WorkOrderMaster">
+            <End Role="WorkOrderMaster" EntitySet="WorkOrderMaster" />
+            <End Role="ScopeWorkOrder" EntitySet="ScopeWorkOrder" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CLPDUMPModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AccountSiteMaster">
+          <Key>
+            <PropertyRef Name="AccountId" />
+            <PropertyRef Name="SiteId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SiteId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SiteName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AccountSiteTempMaster">
+          <Key>
+            <PropertyRef Name="AccountId" />
+            <PropertyRef Name="SiteId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AccountId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SiteId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="SiteName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PostalCode" Type="String" MaxLength="15" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Authorization">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HotWorkId" Type="Int32" />
+          <Property Name="AuthorizerName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Department" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Location" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AuthorizationDateTime" Type="DateTime" Precision="3" />
+          <Property Name="IsHighHazardArea" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="AreaSupervisorName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="AreaSupervisorDepartment" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HotWork" Relationship="Self.FK_Authorization_HotWork" FromRole="Authorization" ToRole="HotWork" />
+        </EntityType>
+        <EntityType Name="FirePrevention">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HotWorkId" Type="Int32" />
+          <Property Name="NearestFireAlarmLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="NearestPhone" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HotWork" Relationship="Self.FK_FirePrevention_HotWork" FromRole="FirePrevention" ToRole="HotWork" />
+          <NavigationProperty Name="FireWatchPrevention" Relationship="Self.FK_FireWatchPrevention_FirePrevention" FromRole="FirePrevention" ToRole="FireWatchPrevention" />
+        </EntityType>
+        <EntityType Name="FireWatchPrevention">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirePreventionId" Type="Int32" />
+          <Property Name="PersonName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StartTime" Type="Time" Precision="7" />
+          <Property Name="EndTime" Type="Time" Precision="7" />
+          <Property Name="FireWatchType" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="FirePrevention" Relationship="Self.FK_FireWatchPrevention_FirePrevention" FromRole="FireWatchPrevention" ToRole="FirePrevention" />
+        </EntityType>
+        <EntityType Name="HandHeldMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="HotWork">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HotWorkMobileId" Type="Int32" />
+          <Property Name="AccountId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SiteId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsParent" Type="Boolean" />
+          <Property Name="ParentHotWorkId" Type="Int32" />
+          <Property Name="WorkFlowStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="Authorization" Relationship="Self.FK_Authorization_HotWork" FromRole="HotWork" ToRole="Authorization" />
+          <NavigationProperty Name="FirePrevention" Relationship="Self.FK_FirePrevention_HotWork" FromRole="HotWork" ToRole="FirePrevention" />
+          <NavigationProperty Name="HotWorkMeasure" Relationship="Self.FK_HotWorkMeasure_HotWork" FromRole="HotWork" ToRole="HotWorkMeasure" />
+          <NavigationProperty Name="Scope" Relationship="Self.FK_Scope_HotWork" FromRole="HotWork" ToRole="Scope" />
+        </EntityType>
+        <EntityType Name="HotWorkMeasure">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HotWorkId" Type="Int32" />
+          <Property Name="MeasureId" Type="Int32" />
+          <Property Name="MeasureStatus" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="FireHoseCount" Type="Int32" />
+          <Property Name="FireExtinguisherCount" Type="Int32" />
+          <NavigationProperty Name="HotWork" Relationship="Self.FK_HotWorkMeasure_HotWork" FromRole="HotWorkMeasure" ToRole="HotWork" />
+          <NavigationProperty Name="MeasureMaster" Relationship="Self.FK_HotWorkMeasure_MeasureMaster" FromRole="HotWorkMeasure" ToRole="MeasureMaster" />
+        </EntityType>
+        <EntityType Name="Impairment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ImpairmentMobileId" Type="Int32" />
+          <Property Name="AccountId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SiteId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IsParent" Type="Boolean" />
+          <Property Name="ParentImpairmentId" Type="Int32" />
+          <Property Name="WorkFlowStatus" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="ImpairmentTypeId" Type="Int32" />
+          <Property Name="ImpairmentClassId" Type="Int32" />
+          <Property Name="ShutDownReasonId" Type="Int32" />
+          <Property Name="ImpairmentDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+          <Property Name="StartDateTime" Type="DateTime" Precision="3" />
+          <Property Name="EndDateTime" Type="DateTime" Precision="3" />
+          <Property Name="CloseDateTime" Type="DateTime" Precision="3" />
+          <Property Name="IsDeleted" Type="Boolean" />
+          <NavigationProperty Name="ImpairmentTypeMaster" Relationship="Self.FK_Impairment_Impairment" FromRole="Impairment" ToRole="ImpairmentTypeMaster" />
+          <NavigationProperty Name="ImpairmentClassMaster" Relationship="Self.FK_Impairment_ImpairmentClassMaster" FromRole="Impairment" ToRole="ImpairmentClassMaster" />
+          <NavigationProperty Name="ShutDownReasonMaster" Relationship="Self.FK_Impairment_ShutDownReasonMaster" FromRole="Impairment" ToRole="ShutDownReasonMaster" />
+          <NavigationProperty Name="ImpairmentPrecaution" Relationship="Self.FK_ImpairmentPrecaution_Impairment" FromRole="Impairment" ToRole="ImpairmentPrecaution" />
+          <NavigationProperty Name="ReporterDetail" Relationship="Self.FK_ReporterDetail_Impairment" FromRole="Impairment" ToRole="ReporterDetail" />
+          <NavigationProperty Name="ImpairmentMeasureMaster" Relationship="Self.ImpairmentMeasure" FromRole="Impairment" ToRole="ImpairmentMeasureMaster" />
+        </EntityType>
+        <EntityType Name="ImpairmentClassMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Impairment" Relationship="Self.FK_Impairment_ImpairmentClassMaster" FromRole="ImpairmentClassMaster" ToRole="Impairment" />
+        </EntityType>
+        <EntityType Name="ImpairmentMeasureMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Impairment" Relationship="Self.ImpairmentMeasure" FromRole="ImpairmentMeasureMaster" ToRole="Impairment" />
+        </EntityType>
+        <EntityType Name="ImpairmentPrecaution">
+          <Key>
+            <PropertyRef Name="ImpairmentId" />
+            <PropertyRef Name="ImpairmentPrecautionMasterId" />
+          </Key>
+          <Property Name="ImpairmentId" Type="Int32" Nullable="false" />
+          <Property Name="ImpairmentPrecautionMasterId" Type="Int32" Nullable="false" />
+          <Property Name="OtherDescription" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Impairment" Relationship="Self.FK_ImpairmentPrecaution_Impairment" FromRole="ImpairmentPrecaution" ToRole="Impairment" />
+          <NavigationProperty Name="ImpairmentPrecautionMaster" Relationship="Self.FK_ImpairmentPrecaution_ImpairmentPrecautionMaster" FromRole="ImpairmentPrecaution" ToRole="ImpairmentPrecautionMaster" />
+        </EntityType>
+        <EntityType Name="ImpairmentPrecautionMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="ImpairmentPrecaution" Relationship="Self.FK_ImpairmentPrecaution_ImpairmentPrecautionMaster" FromRole="ImpairmentPrecautionMaster" ToRole="ImpairmentPrecaution" />
+        </EntityType>
+        <EntityType Name="ImpairmentTypeMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Impairment" Relationship="Self.FK_Impairment_Impairment" FromRole="ImpairmentTypeMaster" ToRole="Impairment" />
+        </EntityType>
+        <EntityType Name="MeasureMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HotWorkMeasure" Relationship="Self.FK_HotWorkMeasure_MeasureMaster" FromRole="MeasureMaster" ToRole="HotWorkMeasure" />
+        </EntityType>
+        <EntityType Name="ReporterDetail">
+          <Key>
+            <PropertyRef Name="ImpairmentId" />
+          </Key>
+          <Property Name="ImpairmentId" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Phone" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Impairment" Relationship="Self.FK_ReporterDetail_Impairment" FromRole="ReporterDetail" ToRole="Impairment" />
+        </EntityType>
+        <EntityType Name="Scope">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HotWorkId" Type="Int32" />
+          <Property Name="WorkDetail" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="WorkLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CompanyName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="StartDateTime" Type="DateTime" Precision="3" />
+          <Property Name="EndDateTime" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="HotWork" Relationship="Self.FK_Scope_HotWork" FromRole="Scope" ToRole="HotWork" />
+          <NavigationProperty Name="ScopePerson" Relationship="Self.FK_ScopePerson_Scope" FromRole="Scope" ToRole="ScopePerson" />
+          <NavigationProperty Name="ScopeWorkOrder" Relationship="Self.FK_ScopeWorkOrder_Scope" FromRole="Scope" ToRole="ScopeWorkOrder" />
+        </EntityType>
+        <EntityType Name="ScopePerson">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ScopeId" Type="Int32" />
+          <Property Name="PersonName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Scope" Relationship="Self.FK_ScopePerson_Scope" FromRole="ScopePerson" ToRole="Scope" />
+        </EntityType>
+        <EntityType Name="ScopeWorkOrder">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ScopeId" Type="Int32" />
+          <Property Name="WorkOrderId" Type="Int32" />
+          <NavigationProperty Name="Scope" Relationship="Self.FK_ScopeWorkOrder_Scope" FromRole="ScopeWorkOrder" ToRole="Scope" />
+          <NavigationProperty Name="WorkOrderMaster" Relationship="Self.FK_ScopeWorkOrder_WorkOrderMaster" FromRole="ScopeWorkOrder" ToRole="WorkOrderMaster" />
+        </EntityType>
+        <EntityType Name="ShutDownReasonMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Impairment" Relationship="Self.FK_Impairment_ShutDownReasonMaster" FromRole="ShutDownReasonMaster" ToRole="Impairment" />
+        </EntityType>
+        <EntityType Name="WorkOrderMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="WorkOrderName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ScopeWorkOrder" Relationship="Self.FK_ScopeWorkOrder_WorkOrderMaster" FromRole="WorkOrderMaster" ToRole="ScopeWorkOrder" />
+        </EntityType>
+        <Association Name="FK_Authorization_HotWork">
+          <End Role="HotWork" Type="Self.HotWork" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Authorization" Type="Self.Authorization" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HotWork">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Authorization">
+              <PropertyRef Name="HotWorkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FirePrevention_HotWork">
+          <End Role="HotWork" Type="Self.HotWork" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FirePrevention" Type="Self.FirePrevention" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HotWork">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FirePrevention">
+              <PropertyRef Name="HotWorkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FireWatchPrevention_FirePrevention">
+          <End Role="FirePrevention" Type="Self.FirePrevention" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FireWatchPrevention" Type="Self.FireWatchPrevention" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="FirePrevention">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FireWatchPrevention">
+              <PropertyRef Name="FirePreventionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HotWorkMeasure_HotWork">
+          <End Role="HotWork" Type="Self.HotWork" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="HotWorkMeasure" Type="Self.HotWorkMeasure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HotWork">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HotWorkMeasure">
+              <PropertyRef Name="HotWorkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Scope_HotWork">
+          <End Role="HotWork" Type="Self.HotWork" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Scope" Type="Self.Scope" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HotWork">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Scope">
+              <PropertyRef Name="HotWorkId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_HotWorkMeasure_MeasureMaster">
+          <End Role="MeasureMaster" Type="Self.MeasureMaster" Multiplicity="0..1" />
+          <End Role="HotWorkMeasure" Type="Self.HotWorkMeasure" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MeasureMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="HotWorkMeasure">
+              <PropertyRef Name="MeasureId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Impairment_Impairment">
+          <End Role="ImpairmentTypeMaster" Type="Self.ImpairmentTypeMaster" Multiplicity="0..1" />
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImpairmentTypeMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Impairment">
+              <PropertyRef Name="ImpairmentTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Impairment_ImpairmentClassMaster">
+          <End Role="ImpairmentClassMaster" Type="Self.ImpairmentClassMaster" Multiplicity="0..1" />
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImpairmentClassMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Impairment">
+              <PropertyRef Name="ImpairmentClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Impairment_ShutDownReasonMaster">
+          <End Role="ShutDownReasonMaster" Type="Self.ShutDownReasonMaster" Multiplicity="0..1" />
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ShutDownReasonMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Impairment">
+              <PropertyRef Name="ShutDownReasonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ImpairmentPrecaution_Impairment">
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ImpairmentPrecaution" Type="Self.ImpairmentPrecaution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Impairment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImpairmentPrecaution">
+              <PropertyRef Name="ImpairmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ReporterDetail_Impairment">
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ReporterDetail" Type="Self.ReporterDetail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Impairment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ReporterDetail">
+              <PropertyRef Name="ImpairmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ImpairmentPrecaution_ImpairmentPrecautionMaster">
+          <End Role="ImpairmentPrecautionMaster" Type="Self.ImpairmentPrecautionMaster" Multiplicity="1" />
+          <End Role="ImpairmentPrecaution" Type="Self.ImpairmentPrecaution" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ImpairmentPrecautionMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ImpairmentPrecaution">
+              <PropertyRef Name="ImpairmentPrecautionMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScopePerson_Scope">
+          <End Role="Scope" Type="Self.Scope" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ScopePerson" Type="Self.ScopePerson" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Scope">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScopePerson">
+              <PropertyRef Name="ScopeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScopeWorkOrder_Scope">
+          <End Role="Scope" Type="Self.Scope" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ScopeWorkOrder" Type="Self.ScopeWorkOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Scope">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScopeWorkOrder">
+              <PropertyRef Name="ScopeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ScopeWorkOrder_WorkOrderMaster">
+          <End Role="WorkOrderMaster" Type="Self.WorkOrderMaster" Multiplicity="0..1" />
+          <End Role="ScopeWorkOrder" Type="Self.ScopeWorkOrder" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="WorkOrderMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ScopeWorkOrder">
+              <PropertyRef Name="WorkOrderId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ImpairmentMeasure">
+          <End Role="Impairment" Type="Self.Impairment" Multiplicity="*" />
+          <End Role="ImpairmentMeasureMaster" Type="Self.ImpairmentMeasureMaster" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="CLPDUMPEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AccountSiteMaster" EntityType="Self.AccountSiteMaster" />
+          <EntitySet Name="AccountSiteTempMaster" EntityType="Self.AccountSiteTempMaster" />
+          <EntitySet Name="Authorization" EntityType="Self.Authorization" />
+          <EntitySet Name="FirePrevention" EntityType="Self.FirePrevention" />
+          <EntitySet Name="FireWatchPrevention" EntityType="Self.FireWatchPrevention" />
+          <EntitySet Name="HandHeldMaster" EntityType="Self.HandHeldMaster" />
+          <EntitySet Name="HotWork" EntityType="Self.HotWork" />
+          <EntitySet Name="HotWorkMeasure" EntityType="Self.HotWorkMeasure" />
+          <EntitySet Name="Impairment" EntityType="Self.Impairment" />
+          <EntitySet Name="ImpairmentClassMaster" EntityType="Self.ImpairmentClassMaster" />
+          <EntitySet Name="ImpairmentMeasureMaster" EntityType="Self.ImpairmentMeasureMaster" />
+          <EntitySet Name="ImpairmentPrecaution" EntityType="Self.ImpairmentPrecaution" />
+          <EntitySet Name="ImpairmentPrecautionMaster" EntityType="Self.ImpairmentPrecautionMaster" />
+          <EntitySet Name="ImpairmentTypeMaster" EntityType="Self.ImpairmentTypeMaster" />
+          <EntitySet Name="MeasureMaster" EntityType="Self.MeasureMaster" />
+          <EntitySet Name="ReporterDetail" EntityType="Self.ReporterDetail" />
+          <EntitySet Name="Scope" EntityType="Self.Scope" />
+          <EntitySet Name="ScopePerson" EntityType="Self.ScopePerson" />
+          <EntitySet Name="ScopeWorkOrder" EntityType="Self.ScopeWorkOrder" />
+          <EntitySet Name="ShutDownReasonMaster" EntityType="Self.ShutDownReasonMaster" />
+          <EntitySet Name="WorkOrderMaster" EntityType="Self.WorkOrderMaster" />
+          <AssociationSet Name="FK_Authorization_HotWork" Association="Self.FK_Authorization_HotWork">
+            <End Role="HotWork" EntitySet="HotWork" />
+            <End Role="Authorization" EntitySet="Authorization" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FirePrevention_HotWork" Association="Self.FK_FirePrevention_HotWork">
+            <End Role="HotWork" EntitySet="HotWork" />
+            <End Role="FirePrevention" EntitySet="FirePrevention" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FireWatchPrevention_FirePrevention" Association="Self.FK_FireWatchPrevention_FirePrevention">
+            <End Role="FirePrevention" EntitySet="FirePrevention" />
+            <End Role="FireWatchPrevention" EntitySet="FireWatchPrevention" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HotWorkMeasure_HotWork" Association="Self.FK_HotWorkMeasure_HotWork">
+            <End Role="HotWork" EntitySet="HotWork" />
+            <End Role="HotWorkMeasure" EntitySet="HotWorkMeasure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Scope_HotWork" Association="Self.FK_Scope_HotWork">
+            <End Role="HotWork" EntitySet="HotWork" />
+            <End Role="Scope" EntitySet="Scope" />
+          </AssociationSet>
+          <AssociationSet Name="FK_HotWorkMeasure_MeasureMaster" Association="Self.FK_HotWorkMeasure_MeasureMaster">
+            <End Role="MeasureMaster" EntitySet="MeasureMaster" />
+            <End Role="HotWorkMeasure" EntitySet="HotWorkMeasure" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Impairment_Impairment" Association="Self.FK_Impairment_Impairment">
+            <End Role="ImpairmentTypeMaster" EntitySet="ImpairmentTypeMaster" />
+            <End Role="Impairment" EntitySet="Impairment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Impairment_ImpairmentClassMaster" Association="Self.FK_Impairment_ImpairmentClassMaster">
+            <End Role="ImpairmentClassMaster" EntitySet="ImpairmentClassMaster" />
+            <End Role="Impairment" EntitySet="Impairment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Impairment_ShutDownReasonMaster" Association="Self.FK_Impairment_ShutDownReasonMaster">
+            <End Role="ShutDownReasonMaster" EntitySet="ShutDownReasonMaster" />
+            <End Role="Impairment" EntitySet="Impairment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImpairmentPrecaution_Impairment" Association="Self.FK_ImpairmentPrecaution_Impairment">
+            <End Role="Impairment" EntitySet="Impairment" />
+            <End Role="ImpairmentPrecaution" EntitySet="ImpairmentPrecaution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ReporterDetail_Impairment" Association="Self.FK_ReporterDetail_Impairment">
+            <End Role="Impairment" EntitySet="Impairment" />
+            <End Role="ReporterDetail" EntitySet="ReporterDetail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ImpairmentPrecaution_ImpairmentPrecautionMaster" Association="Self.FK_ImpairmentPrecaution_ImpairmentPrecautionMaster">
+            <End Role="ImpairmentPrecautionMaster" EntitySet="ImpairmentPrecautionMaster" />
+            <End Role="ImpairmentPrecaution" EntitySet="ImpairmentPrecaution" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScopePerson_Scope" Association="Self.FK_ScopePerson_Scope">
+            <End Role="Scope" EntitySet="Scope" />
+            <End Role="ScopePerson" EntitySet="ScopePerson" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScopeWorkOrder_Scope" Association="Self.FK_ScopeWorkOrder_Scope">
+            <End Role="Scope" EntitySet="Scope" />
+            <End Role="ScopeWorkOrder" EntitySet="ScopeWorkOrder" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ScopeWorkOrder_WorkOrderMaster" Association="Self.FK_ScopeWorkOrder_WorkOrderMaster">
+            <End Role="WorkOrderMaster" EntitySet="WorkOrderMaster" />
+            <End Role="ScopeWorkOrder" EntitySet="ScopeWorkOrder" />
+          </AssociationSet>
+          <AssociationSet Name="ImpairmentMeasure" Association="Self.ImpairmentMeasure">
+            <End Role="Impairment" EntitySet="Impairment" />
+            <End Role="ImpairmentMeasureMaster" EntitySet="ImpairmentMeasureMaster" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CLPDUMPModelStoreContainer" CdmEntityContainer="CLPDUMPEntities">
+          <EntitySetMapping Name="AccountSiteMaster">
+            <EntityTypeMapping TypeName="CLPDUMPModel.AccountSiteMaster">
+              <MappingFragment StoreEntitySet="AccountSiteMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyAddress" ColumnName="CompanyAddress" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AccountSiteTempMaster">
+            <EntityTypeMapping TypeName="CLPDUMPModel.AccountSiteTempMaster">
+              <MappingFragment StoreEntitySet="AccountSiteTempMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="CompanyAddress" ColumnName="CompanyAddress" />
+                <ScalarProperty Name="SiteName" ColumnName="SiteName" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+                <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Authorization">
+            <EntityTypeMapping TypeName="CLPDUMPModel.Authorization">
+              <MappingFragment StoreEntitySet="Authorization">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="HotWorkId" ColumnName="HotWorkId" />
+                <ScalarProperty Name="AuthorizerName" ColumnName="AuthorizerName" />
+                <ScalarProperty Name="Department" ColumnName="Department" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="AuthorizationDateTime" ColumnName="AuthorizationDateTime" />
+                <ScalarProperty Name="IsHighHazardArea" ColumnName="IsHighHazardArea" />
+                <ScalarProperty Name="AreaSupervisorName" ColumnName="AreaSupervisorName" />
+                <ScalarProperty Name="AreaSupervisorDepartment" ColumnName="AreaSupervisorDepartment" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FirePrevention">
+            <EntityTypeMapping TypeName="CLPDUMPModel.FirePrevention">
+              <MappingFragment StoreEntitySet="FirePrevention">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="HotWorkId" ColumnName="HotWorkId" />
+                <ScalarProperty Name="NearestFireAlarmLocation" ColumnName="NearestFireAlarmLocation" />
+                <ScalarProperty Name="NearestPhone" ColumnName="NearestPhone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FireWatchPrevention">
+            <EntityTypeMapping TypeName="CLPDUMPModel.FireWatchPrevention">
+              <MappingFragment StoreEntitySet="FireWatchPrevention">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="FirePreventionId" ColumnName="FirePreventionId" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="FireWatchType" ColumnName="FireWatchType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HandHeldMaster">
+            <EntityTypeMapping TypeName="CLPDUMPModel.HandHeldMaster">
+              <MappingFragment StoreEntitySet="HandHeldMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HotWork">
+            <EntityTypeMapping TypeName="CLPDUMPModel.HotWork">
+              <MappingFragment StoreEntitySet="HotWork">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="HotWorkMobileId" ColumnName="HotWorkMobileId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="IsParent" ColumnName="IsParent" />
+                <ScalarProperty Name="ParentHotWorkId" ColumnName="ParentHotWorkId" />
+                <ScalarProperty Name="WorkFlowStatus" ColumnName="WorkFlowStatus" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HotWorkMeasure">
+            <EntityTypeMapping TypeName="CLPDUMPModel.HotWorkMeasure">
+              <MappingFragment StoreEntitySet="HotWorkMeasure">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="HotWorkId" ColumnName="HotWorkId" />
+                <ScalarProperty Name="MeasureId" ColumnName="MeasureId" />
+                <ScalarProperty Name="MeasureStatus" ColumnName="MeasureStatus" />
+                <ScalarProperty Name="FireHoseCount" ColumnName="FireHoseCount" />
+                <ScalarProperty Name="FireExtinguisherCount" ColumnName="FireExtinguisherCount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Impairment">
+            <EntityTypeMapping TypeName="CLPDUMPModel.Impairment">
+              <MappingFragment StoreEntitySet="Impairment">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ImpairmentMobileId" ColumnName="ImpairmentMobileId" />
+                <ScalarProperty Name="AccountId" ColumnName="AccountId" />
+                <ScalarProperty Name="SiteId" ColumnName="SiteId" />
+                <ScalarProperty Name="IsParent" ColumnName="IsParent" />
+                <ScalarProperty Name="ParentImpairmentId" ColumnName="ParentImpairmentId" />
+                <ScalarProperty Name="WorkFlowStatus" ColumnName="WorkFlowStatus" />
+                <ScalarProperty Name="ImpairmentTypeId" ColumnName="ImpairmentTypeId" />
+                <ScalarProperty Name="ImpairmentClassId" ColumnName="ImpairmentClassId" />
+                <ScalarProperty Name="ShutDownReasonId" ColumnName="ShutDownReasonId" />
+                <ScalarProperty Name="ImpairmentDescription" ColumnName="ImpairmentDescription" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+                <ScalarProperty Name="CloseDateTime" ColumnName="CloseDateTime" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImpairmentClassMaster">
+            <EntityTypeMapping TypeName="CLPDUMPModel.ImpairmentClassMaster">
+              <MappingFragment StoreEntitySet="ImpairmentClassMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImpairmentMeasureMaster">
+            <EntityTypeMapping TypeName="CLPDUMPModel.ImpairmentMeasureMaster">
+              <MappingFragment StoreEntitySet="ImpairmentMeasureMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImpairmentPrecaution">
+            <EntityTypeMapping TypeName="CLPDUMPModel.ImpairmentPrecaution">
+              <MappingFragment StoreEntitySet="ImpairmentPrecaution">
+                <ScalarProperty Name="ImpairmentId" ColumnName="ImpairmentId" />
+                <ScalarProperty Name="ImpairmentPrecautionMasterId" ColumnName="ImpairmentPrecautionMasterId" />
+                <ScalarProperty Name="OtherDescription" ColumnName="OtherDescription" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImpairmentPrecautionMaster">
+            <EntityTypeMapping TypeName="CLPDUMPModel.ImpairmentPrecautionMaster">
+              <MappingFragment StoreEntitySet="ImpairmentPrecautionMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ImpairmentTypeMaster">
+            <EntityTypeMapping TypeName="CLPDUMPModel.ImpairmentTypeMaster">
+              <MappingFragment StoreEntitySet="ImpairmentTypeMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MeasureMaster">
+            <EntityTypeMapping TypeName="CLPDUMPModel.MeasureMaster">
+              <MappingFragment StoreEntitySet="MeasureMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReporterDetail">
+            <EntityTypeMapping TypeName="CLPDUMPModel.ReporterDetail">
+              <MappingFragment StoreEntitySet="ReporterDetail">
+                <ScalarProperty Name="ImpairmentId" ColumnName="ImpairmentId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Phone" ColumnName="Phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Scope">
+            <EntityTypeMapping TypeName="CLPDUMPModel.Scope">
+              <MappingFragment StoreEntitySet="Scope">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="HotWorkId" ColumnName="HotWorkId" />
+                <ScalarProperty Name="WorkDetail" ColumnName="WorkDetail" />
+                <ScalarProperty Name="WorkLocation" ColumnName="WorkLocation" />
+                <ScalarProperty Name="CompanyName" ColumnName="CompanyName" />
+                <ScalarProperty Name="StartDateTime" ColumnName="StartDateTime" />
+                <ScalarProperty Name="EndDateTime" ColumnName="EndDateTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScopePerson">
+            <EntityTypeMapping TypeName="CLPDUMPModel.ScopePerson">
+              <MappingFragment StoreEntitySet="ScopePerson">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ScopeId" ColumnName="ScopeId" />
+                <ScalarProperty Name="PersonName" ColumnName="PersonName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ScopeWorkOrder">
+            <EntityTypeMapping TypeName="CLPDUMPModel.ScopeWorkOrder">
+              <MappingFragment StoreEntitySet="ScopeWorkOrder">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ScopeId" ColumnName="ScopeId" />
+                <ScalarProperty Name="WorkOrderId" ColumnName="WorkOrderId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ShutDownReasonMaster">
+            <EntityTypeMapping TypeName="CLPDUMPModel.ShutDownReasonMaster">
+              <MappingFragment StoreEntitySet="ShutDownReasonMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WorkOrderMaster">
+            <EntityTypeMapping TypeName="CLPDUMPModel.WorkOrderMaster">
+              <MappingFragment StoreEntitySet="WorkOrderMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="WorkOrderName" ColumnName="WorkOrderName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="ImpairmentMeasure" TypeName="CLPDUMPModel.ImpairmentMeasure" StoreEntitySet="ImpairmentMeasure">
+            <EndProperty Name="Impairment">
+              <ScalarProperty Name="Id" ColumnName="ImpairmentId" />
+            </EndProperty>
+            <EndProperty Name="ImpairmentMeasureMaster">
+              <ScalarProperty Name="Id" ColumnName="ImpairmentMeasureMasterId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

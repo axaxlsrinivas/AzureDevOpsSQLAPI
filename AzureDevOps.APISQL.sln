@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDevOps.APISQL.Web", "AzureDevOps.APISQL.Web\AzureDevOps.APISQL.Web.csproj", "{E8CCD790-0947-4C5F-9114-B25FF2375494}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDevOps.APISQL.Web.Tests", "AzureDevOps.APISQL.Web.Tests\AzureDevOps.APISQL.Web.Tests.csproj", "{5D8E1A26-4C2A-4FBC-AC39-CD994A1F9F37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDevOps.APISQL.Business", "AzureDevOps.APISQL.Business\AzureDevOps.APISQL.Business.csproj", "{DA351DAD-D069-4C78-B3FE-3AF9B82EB58E}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "AzureDevOps.APISQL.Database", "AzureDevOps.APISQL.Database\AzureDevOps.APISQL.Database.sqlproj", "{9B30BB01-AA05-40EF-AA14-981FF36CD24A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureDevOps.APISQL.DAL", "AzureDevOps.APISQL.DAL\AzureDevOps.APISQL.DAL.csproj", "{40C0081C-4AC2-45C5-9C36-0D227A0905AF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8CCD790-0947-4C5F-9114-B25FF2375494}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8CCD790-0947-4C5F-9114-B25FF2375494}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8CCD790-0947-4C5F-9114-B25FF2375494}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8CCD790-0947-4C5F-9114-B25FF2375494}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D8E1A26-4C2A-4FBC-AC39-CD994A1F9F37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D8E1A26-4C2A-4FBC-AC39-CD994A1F9F37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D8E1A26-4C2A-4FBC-AC39-CD994A1F9F37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D8E1A26-4C2A-4FBC-AC39-CD994A1F9F37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DA351DAD-D069-4C78-B3FE-3AF9B82EB58E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA351DAD-D069-4C78-B3FE-3AF9B82EB58E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA351DAD-D069-4C78-B3FE-3AF9B82EB58E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA351DAD-D069-4C78-B3FE-3AF9B82EB58E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B30BB01-AA05-40EF-AA14-981FF36CD24A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B30BB01-AA05-40EF-AA14-981FF36CD24A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B30BB01-AA05-40EF-AA14-981FF36CD24A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{9B30BB01-AA05-40EF-AA14-981FF36CD24A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B30BB01-AA05-40EF-AA14-981FF36CD24A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B30BB01-AA05-40EF-AA14-981FF36CD24A}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{40C0081C-4AC2-45C5-9C36-0D227A0905AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40C0081C-4AC2-45C5-9C36-0D227A0905AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40C0081C-4AC2-45C5-9C36-0D227A0905AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40C0081C-4AC2-45C5-9C36-0D227A0905AF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3B168DE7-950B-4EBC-95BF-B5934827F9EF}
+	EndGlobalSection
+EndGlobal

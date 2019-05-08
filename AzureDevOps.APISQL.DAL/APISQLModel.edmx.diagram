@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d79ba06eb868486e92f328ed7e64b0a8" Name="Diagram1">
+        <EntityTypeShape EntityType="CLPDUMPModel.AccountSiteMaster" Width="1.5" PointX="0.75" PointY="9.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.AccountSiteTempMaster" Width="1.5" PointX="10.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.Authorization" Width="1.5" PointX="10" PointY="11" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.FirePrevention" Width="1.5" PointX="10" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.FireWatchPrevention" Width="1.5" PointX="12.25" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.HandHeldMaster" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.HotWork" Width="1.5" PointX="7.75" PointY="14.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.HotWorkMeasure" Width="1.5" PointX="13" PointY="10.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.Impairment" Width="1.5" PointX="3" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.ImpairmentClassMaster" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.ImpairmentMeasureMaster" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.ImpairmentPrecaution" Width="1.5" PointX="8.25" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.ImpairmentPrecautionMaster" Width="1.5" PointX="6" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.ImpairmentTypeMaster" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.MeasureMaster" Width="1.5" PointX="10.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.ReporterDetail" Width="1.5" PointX="5.25" PointY="7.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.Scope" Width="1.5" PointX="10" PointY="21.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.ScopePerson" Width="1.5" PointX="12.25" PointY="21.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.ScopeWorkOrder" Width="1.5" PointX="12.25" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.ShutDownReasonMaster" Width="1.5" PointX="0.75" PointY="7.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CLPDUMPModel.WorkOrderMaster" Width="1.5" PointX="10" PointY="17.75" IsExpanded="true" />
+        <AssociationConnector Association="CLPDUMPModel.FK_Authorization_HotWork" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_FirePrevention_HotWork" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_FireWatchPrevention_FirePrevention" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_HotWorkMeasure_HotWork" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_Scope_HotWork" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_HotWorkMeasure_MeasureMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_Impairment_Impairment" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_Impairment_ImpairmentClassMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_Impairment_ShutDownReasonMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_ImpairmentPrecaution_Impairment" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_ReporterDetail_Impairment" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_ImpairmentPrecaution_ImpairmentPrecautionMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_ScopePerson_Scope" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_ScopeWorkOrder_Scope" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.FK_ScopeWorkOrder_WorkOrderMaster" ManuallyRouted="false" />
+        <AssociationConnector Association="CLPDUMPModel.ImpairmentMeasure" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

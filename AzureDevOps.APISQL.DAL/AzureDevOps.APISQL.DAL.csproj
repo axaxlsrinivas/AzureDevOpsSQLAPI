@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{40C0081C-4AC2-45C5-9C36-0D227A0905AF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>AzureDevOps.APISQL.DAL</RootNamespace>
+    <AssemblyName>AzureDevOps.APISQL.DAL</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AccountSiteMaster.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AccountSiteTempMaster.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="APISQLModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>APISQLModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="APISQLModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="APISQLModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>APISQLModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Authorization.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FirePrevention.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="FireWatchPrevention.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HandHeldMaster.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HotWork.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="HotWorkMeasure.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Impairment.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImpairmentClassMaster.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImpairmentMeasureMaster.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImpairmentPrecaution.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImpairmentPrecautionMaster.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ImpairmentTypeMaster.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MeasureMaster.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReporterDetail.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Repository\GenericRepository.cs" />
+    <Compile Include="Repository\UnitOfWork.cs" />
+    <Compile Include="Scope.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScopePerson.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ScopeWorkOrder.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ShutDownReasonMaster.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="WorkOrderMaster.cs">
+      <DependentUpon>APISQLModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EntityDeploy Include="APISQLModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>APISQLModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="APISQLModel.edmx.diagram">
+      <DependentUpon>APISQLModel.edmx</DependentUpon>
+    </None>
+    <None Include="App.Config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="APISQLModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>APISQLModel.Context.cs</LastGenOutput>
+      <DependentUpon>APISQLModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="APISQLModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>APISQLModel.edmx</DependentUpon>
+      <LastGenOutput>APISQLModel.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

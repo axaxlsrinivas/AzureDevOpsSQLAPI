@@ -1,0 +1,86 @@
+08-05-2019 12:54:21	This log contains information about the import schema operation into project 'AzureDevOps.APISQL.Database' on computer 'MOBW41L0243' by user 'SY51629'.
+08-05-2019 12:54:22	Import of database schema has started.
+08-05-2019 12:54:31	Gathering database credentials
+08-05-2019 12:54:31	Gathering database options
+08-05-2019 12:54:31	Gathering generic database scoped configuration option
+08-05-2019 12:54:31	Gathering users
+08-05-2019 12:54:31	Gathering roles
+08-05-2019 12:54:31	Gathering application roles
+08-05-2019 12:54:31	Gathering role memberships
+08-05-2019 12:54:31	Gathering filegroups
+08-05-2019 12:54:31	Gathering full-text catalogs
+08-05-2019 12:54:31	Gathering assemblies
+08-05-2019 12:54:31	Gathering certificates
+08-05-2019 12:54:31	Gathering asymmetric keys
+08-05-2019 12:54:31	Gathering symmetric keys
+08-05-2019 12:54:31	Gathering encrypted symmetric keys
+08-05-2019 12:54:31	Gathering schemas
+08-05-2019 12:54:31	Gathering XML schema collections
+08-05-2019 12:54:31	Gathering user-defined data types
+08-05-2019 12:54:31	Gathering user-defined types
+08-05-2019 12:54:31	Gathering table types
+08-05-2019 12:54:31	Gathering unique keys for table types
+08-05-2019 12:54:31	Gathering primary keys for table types
+08-05-2019 12:54:31	Gathering indexes for table types
+08-05-2019 12:54:32	Gathering check constraints for table types
+08-05-2019 12:54:32	Gathering default constraints for table types
+08-05-2019 12:54:32	Gathering partition functions
+08-05-2019 12:54:32	Gathering partition schemes
+08-05-2019 12:54:32	Gathering functions
+08-05-2019 12:54:32	Gathering encrypted functions
+08-05-2019 12:54:32	Gathering aggregates
+08-05-2019 12:54:32	Gathering procedures
+08-05-2019 12:54:32	Gathering encrypted procedures
+08-05-2019 12:54:32	Gathering tables
+08-05-2019 12:54:32	Gathering primary keys
+08-05-2019 12:54:32	Gathering unique constraints
+08-05-2019 12:54:32	Gathering foreign keys
+08-05-2019 12:54:32	Gathering default constraints
+08-05-2019 12:54:32	Gathering check constraints
+08-05-2019 12:54:32	Gathering views
+08-05-2019 12:54:32	Gathering encrypted views
+08-05-2019 12:54:32	Gathering indexes
+08-05-2019 12:54:32	Gathering statistics
+08-05-2019 12:54:32	Gathering full-text index stoplists
+08-05-2019 12:54:32	Gathering search property lists
+08-05-2019 12:54:32	Gathering search properties
+08-05-2019 12:54:32	Gathering full-text indexes
+08-05-2019 12:54:32	Gathering column store indexes
+08-05-2019 12:54:32	Gathering spatial indexes
+08-05-2019 12:54:32	Gathering XML indexes
+08-05-2019 12:54:32	Gathering Selective XML indexes
+08-05-2019 12:54:32	Gathering encrypted triggers
+08-05-2019 12:54:32	Gathering triggers
+08-05-2019 12:54:32	Gathering encrypted and clr ddl triggers
+08-05-2019 12:54:32	Gathering ddl triggers
+08-05-2019 12:54:32	Gathering synonyms
+08-05-2019 12:54:32	Gathering defaults
+08-05-2019 12:54:32	Gathering data constraint uddt bindings
+08-05-2019 12:54:32	Gathering rules
+08-05-2019 12:54:32	Gathering data constraint uddt bindings
+08-05-2019 12:54:32	Gathering message types
+08-05-2019 12:54:32	Gathering queues
+08-05-2019 12:54:32	Gathering contracts
+08-05-2019 12:54:32	Gathering services
+08-05-2019 12:54:32	Gathering event notifications
+08-05-2019 12:54:32	Gathering remote service bindings
+08-05-2019 12:54:32	Gathering broker priorities
+08-05-2019 12:54:32	Gathering signatures
+08-05-2019 12:54:32	Gathering data compression options
+08-05-2019 12:54:32	Gathering sequence types
+08-05-2019 12:54:32	Gathering security policies
+08-05-2019 12:54:32	Gather column encryption keys
+08-05-2019 12:54:32	Gathering column master keys
+08-05-2019 12:54:32	Gathering external data sources
+08-05-2019 12:54:32	Gathering external file formats
+08-05-2019 12:54:32	Gathering external tables
+08-05-2019 12:54:32	Gathering database permissions
+08-05-2019 12:54:32	Gathering extended properties
+08-05-2019 12:54:32	Gathering credentials
+08-05-2019 12:54:32	Gathering logins
+08-05-2019 12:54:32	Gathering server audits
+08-05-2019 12:54:32	Scanning project for duplicate elements
+08-05-2019 12:54:32	Finished duplicate element processing
+08-05-2019 12:54:33	Finished importing database.
+08-05-2019 12:54:33	A summary of the import was saved to the following location: C:\Users\sy51629\Downloads\AzureDevOps.APISQL\AzureDevOps.APISQL.Database\Import Schema Logs\AzureDevOps.APISQL.D_20190508072421.log
+08-05-2019 12:54:33	Click Finish to continue...
