@@ -1,0 +1,171 @@
+Step 1: Create the Custom WebView
+First, create a new class for the custom WebView. This will be a partial class.
+
+csharp
+Copy code
+using Microsoft.Maui.Controls;
+
+namespace YourNamespace
+{
+    public partial class CustomWebView : WebView
+    {
+        public CustomWebView()
+        {
+        }
+    }
+}
+Step 2: Platform-Specific Implementations
+.NET MAUI allows you to create platform-specific code using partial classes. You will need to create platform-specific implementations for loading local PDFs.
+
+For Android:
+Create a new partial class file for Android in the Platforms/Android folder.
+
+csharp
+Copy code
+using Android.Webkit;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Platform;
+using YourNamespace.Platforms.Android;
+
+[assembly: ExportRenderer(typeof(CustomWebView), typeof(CustomWebViewRenderer))]
+namespace YourNamespace.Platforms.Android
+{
+    public partial class CustomWebViewRenderer : WebViewRenderer
+    {
+        public CustomWebViewRenderer(Android.Content.Context context) : base(context)
+        {
+        }
+
+        protected override void OnElementChanged(ElementChangedEventArgs<WebView> e)
+        {
+            base.OnElementChanged(e);
+            if (Control != null)
+            {
+                Control.SetWebViewClient(new WebViewClient());
+            }
+            if (e.NewElement is CustomWebView customWebView && customWebView.Uri != null)
+            {
+                Control.LoadUrl(customWebView.Uri);
+            }
+        }
+    }
+}
+For iOS:
+Create a new partial class file for iOS in the Platforms/iOS folder.
+
+csharp
+Copy code
+using Foundation;
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Platform;
+using Microsoft.Maui.Platform;
+using WebKit;
+using YourNamespace.Platforms.iOS;
+
+[assembly: ExportRenderer(typeof(CustomWebView), typeof(CustomWebViewRenderer))]
+namespace YourNamespace.Platforms.iOS
+{
+    public partial class CustomWebViewRenderer : WkWebViewRenderer
+    {
+        public CustomWebViewRenderer() : base(new CGRect(0, 0, 0, 0), new WKWebViewConfiguration())
+        {
+        }
+
+        protected override void OnElementChanged(ElementChangedEventArgs<WebView> e)
+        {
+            base.OnElementChanged(e);
+            if (e.NewElement is CustomWebView customWebView && customWebView.Uri != null)
+            {
+                LoadRequest(new NSUrlRequest(new NSUrl(customWebView.Uri)));
+            }
+        }
+    }
+}
+Step 3: Define Properties for Custom WebView
+Add properties to the CustomWebView to handle the URLs and local PDFs.
+
+csharp
+Copy code
+using Microsoft.Maui.Controls;
+
+namespace YourNamespace
+{
+    public partial class CustomWebView : WebView
+    {
+        public static readonly BindableProperty UriProperty = BindableProperty.Create(
+            propertyName: nameof(Uri),
+            returnType: typeof(string),
+            declaringType: typeof(CustomWebView),
+            defaultValue: default(string));
+
+        public string Uri
+        {
+            get => (string)GetValue(UriProperty);
+            set => SetValue(UriProperty, value);
+        }
+    }
+}
+Step 4: Use the Custom WebView in XAML
+You can now use your custom WebView in XAML:
+
+xml
+Copy code
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:YourNamespace"
+             x:Class="YourNamespace.MainPage">
+
+    <StackLayout>
+        <local:CustomWebView Uri="https://www.example.com" />
+    </StackLayout>
+</ContentPage>
+Step 5: Handling Local PDFs
+For loading local PDFs, you can extend the platform-specific implementations to handle file URLs. For example, on Android:
+
+csharp
+Copy code
+protected override void OnElementChanged(ElementChangedEventArgs<WebView> e)
+{
+    base.OnElementChanged(e);
+    if (Control != null)
+    {
+        Control.SetWebViewClient(new WebViewClient());
+    }
+    if (e.NewElement is CustomWebView customWebView)
+    {
+        if (customWebView.Uri.StartsWith("file://"))
+        {
+            Control.LoadUrl("file:///android_asset/" + customWebView.Uri.Replace("file://", ""));
+        }
+        else
+        {
+            Control.LoadUrl(customWebView.Uri);
+        }
+    }
+}
+And on iOS:
+
+csharp
+Copy code
+protected override void OnElementChanged(ElementChangedEventArgs<WebView> e)
+{
+    base.OnElementChanged(e);
+    if (e.NewElement is CustomWebView customWebView)
+    {
+        if (customWebView.Uri.StartsWith("file://"))
+        {
+            var filePath = NSBundle.MainBundle.PathForResource(customWebView.Uri.Replace("file://", ""), null);
+            LoadRequest(new NSUrlRequest(new NSUrl(filePath, false)));
+        }
+        else
+        {
+            LoadRequest(new NSUrlRequest(new NSUrl(customWebView.Uri)));
+        }
+    }
+}
+Step 6: Loading PDFs
+For loading local PDFs, ensure the PDFs are included in the assets folder (Android) or the Resources folder (iOS). The example above assumes the PDFs are located in these folders and accessed with a file:// URI scheme.
+
+This setup should help you create a custom WebView in .NET MAUI that can load both URLs and local PDFs using partial classes for platform-specific behavior.
