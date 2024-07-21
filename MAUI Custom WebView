@@ -36,19 +36,20 @@ Create a Custom Handler for Android
 csharp
 Copy code
 // Platforms/Android/CustomWebViewHandler.cs
+// Platforms/Android/CustomWebViewHandler.cs
+using System.IO;
 using Android.Webkit;
 using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Platform;
 using YourNamespace;
-using System.IO;
 
 namespace YourNamespace.Platforms.Android
 {
     public partial class CustomWebViewHandler : WebViewHandler
     {
-        protected override WebViewClient CreatePlatformWebViewClient()
+        protected override void ConnectHandler(Android.Webkit.WebView platformView)
         {
-            return new CustomWebViewClient();
+            base.ConnectHandler(platformView);
+            platformView.SetWebViewClient(new CustomWebViewClient());
         }
     }
 
@@ -61,15 +62,16 @@ namespace YourNamespace.Platforms.Android
 
         public override WebResourceResponse ShouldInterceptRequest(Android.Webkit.WebView view, IWebResourceRequest request)
         {
-            if (request.Url.Path.EndsWith(".pdf", System.StringComparison.OrdinalIgnoreCase))
+            if (request.Url.ToString().EndsWith(".pdf", System.StringComparison.OrdinalIgnoreCase))
             {
-                var stream = File.OpenRead("path/to/your/local/pdf");
+                var stream = File.OpenRead("path/to/your/local/pdf"); // Ensure you have a valid path
                 return new WebResourceResponse("application/pdf", "UTF-8", stream);
             }
             return base.ShouldInterceptRequest(view, request);
         }
     }
 }
+
 Create a Custom Handler for iOS
 csharp
 Copy code
