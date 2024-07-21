@@ -74,6 +74,7 @@ Create a Custom Handler for iOS
 csharp
 Copy code
 // Platforms/iOS/CustomWebViewHandler.cs
+// Platforms/iOS/CustomWebViewHandler.cs
 using Foundation;
 using Microsoft.Maui.Handlers;
 using WebKit;
@@ -83,38 +84,56 @@ namespace YourNamespace.Platforms.iOS
 {
     public partial class CustomWebViewHandler : WebViewHandler
     {
-        protected override WKNavigationDelegate CreateNavigationDelegate()
+        protected override void ConnectHandler(WKWebView platformView)
         {
-            return new CustomWebViewNavigationDelegate();
+            base.ConnectHandler(platformView);
+
+            if (VirtualView is CustomWebView customWebView && customWebView.IsPdf)
+            {
+                var urlSchemeHandler = new PdfUrlSchemeHandler();
+                var config = platformView.Configuration;
+                config.SetUrlSchemeHandler(urlSchemeHandler, "pdf");
+
+                var url = new NSUrl($"pdf://{customWebView.Url}");
+                var request = new NSUrlRequest(url);
+                platformView.LoadRequest(request);
+            }
         }
     }
 
-    public class CustomWebViewNavigationDelegate : WKNavigationDelegate
+    public class PdfUrlSchemeHandler : NSObject, IWKUrlSchemeHandler
     {
-        public override void DidFinishNavigation(WKWebView webView, WKNavigation navigation)
+        public void StartUrlSchemeTask(WKWebView webView, IWKUrlSchemeTask urlSchemeTask)
         {
-            base.DidFinishNavigation(webView, navigation);
-        }
+            var url = urlSchemeTask.Request.Url.AbsoluteString.Replace("pdf://", "");
 
-        public override WKWebResourceResponse DidReceiveResponse(WKWebView webView, WKNavigationResponse response, WKWebResourceResponseHandler completionHandler)
-        {
-            var url = response.Response.Url.AbsoluteString;
-            if (url.EndsWith(".pdf", System.StringComparison.OrdinalIgnoreCase))
+            if (url.StartsWith("http"))
             {
-                var localUrl = NSBundle.MainBundle.PathForResource("path/to/your/local/pdf", "pdf");
-                var data = NSData.FromFile(localUrl);
-                var mimeType = "application/pdf";
-                var encoding = "UTF-8";
-                var resourceResponse = new WKWebResourceResponse(response.Response.Url, mimeType, data, encoding, null);
-                completionHandler(resourceResponse);
+                var nsUrl = new NSUrl(url);
+                var data = NSData.FromUrl(nsUrl);
+                var response = new NSUrlResponse(nsUrl, "application/pdf", (nint)data.Length, null);
+                urlSchemeTask.DidReceiveResponse(response);
+                urlSchemeTask.DidReceiveData(data);
+                urlSchemeTask.DidFinish();
             }
             else
             {
-                completionHandler(response);
+                var localUrl = NSBundle.MainBundle.PathForResource(url, null);
+                var data = NSData.FromFile(localUrl);
+                var nsUrl = new NSUrl(localUrl);
+                var response = new NSUrlResponse(nsUrl, "application/pdf", (nint)data.Length, null);
+                urlSchemeTask.DidReceiveResponse(response);
+                urlSchemeTask.DidReceiveData(data);
+                urlSchemeTask.DidFinish();
             }
+        }
+
+        public void StopUrlSchemeTask(IWKUrlSchemeTask urlSchemeTask)
+        {
         }
     }
 }
+
 Register the Custom Handlers
 Ensure you register your custom handlers in the MauiProgram.cs.
 
