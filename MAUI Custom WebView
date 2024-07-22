@@ -1,227 +1,95 @@
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Platform;
 
-namespace NBHMVSCODEPOC
+namespace YourAppName
 {
-    public class CustomWebView : WebView
+    public class CustomWebViewHandler : WebViewHandler
     {
-        public CustomWebView()
+        protected override IWebView CreateNativeWebView()
         {
-            // Set up WebView properties and behaviors as needed
-            // Configure WebView properties
-            VerticalOptions = LayoutOptions.Fill;
-            HorizontalOptions = LayoutOptions.Fill;
-
-            // Load PDFs or regular URLs
-            //Source = new UrlWebViewSource();
+            // Return platform-specific implementation of NativeWebView
+            return new NativeWebView(Context);
         }
 
-        public void LoadUrl(string url)
+        protected override void UpdateSource()
         {
-            // Load PDFs or regular URLs
-            Source = new UrlWebViewSource { Url = url };
-        }
-    }
-}
-
-// // Load a regular URL
-        //     webView.Source = new UrlWebViewSource { Url = "https://learn.microsoft.com/en-us/dotnet/maui/?view=net-maui-8.0" };
-
-        //     // Load a PDF URL
-        //     webView.Source = new UrlWebViewSource { Url = "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf" };
-
-		// Example loading URLs into the custom WebView
-        //webView.LoadUrl("https://learn.microsoft.com/en-us/dotnet/maui/?view=net-maui-8.0"); // Regular URL
-        webView.LoadUrl("https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf"); // PDF URL
-
-
-==========
-In .NET MAUI, the WebViewRenderer is obsolete, and instead, you should use the WebViewHandler to customize the behavior of a WebView. Let's update the implementation to use WebViewHandler for both Android and iOS platforms.
-
-Step-by-Step Implementation
-Create a Custom WebView Class
-First, create a custom WebView class in your shared project.
-
-csharp
-Copy code
-// CustomWebView.cs
-using Microsoft.Maui.Controls;
-
-namespace YourNamespace
-{
-    public class CustomWebView : WebView
-    {
-        public static readonly BindableProperty UrlProperty =
-            BindableProperty.Create(nameof(Url), typeof(string), typeof(CustomWebView), default(string));
-
-        public string Url
-        {
-            get => (string)GetValue(UrlProperty);
-            set => SetValue(UrlProperty, value);
-        }
-
-        public static readonly BindableProperty IsPdfProperty =
-            BindableProperty.Create(nameof(IsPdf), typeof(bool), typeof(CustomWebView), default(bool));
-
-        public bool IsPdf
-        {
-            get => (bool)GetValue(IsPdfProperty);
-            set => SetValue(IsPdfProperty, value);
-        }
-    }
-}
-Create a Custom Handler for Android
-csharp
-Copy code
-// Platforms/Android/CustomWebViewHandler.cs
-// Platforms/Android/CustomWebViewHandler.cs
-using System.IO;
-using Android.Webkit;
-using Microsoft.Maui.Handlers;
-using YourNamespace;
-
-namespace YourNamespace.Platforms.Android
-{
-    public partial class CustomWebViewHandler : WebViewHandler
-    {
-        protected override void ConnectHandler(Android.Webkit.WebView platformView)
-        {
-            base.ConnectHandler(platformView);
-            platformView.SetWebViewClient(new CustomWebViewClient());
-        }
-    }
-
-    public class CustomWebViewClient : WebViewClient
-    {
-        public override void OnPageFinished(Android.Webkit.WebView view, string url)
-        {
-            base.OnPageFinished(view, url);
-        }
-
-        public override WebResourceResponse ShouldInterceptRequest(Android.Webkit.WebView view, IWebResourceRequest request)
-        {
-            if (request.Url.ToString().EndsWith(".pdf", System.StringComparison.OrdinalIgnoreCase))
+            if (Element.Source is UrlWebViewSource urlSource && Control is NativeWebView nativeWebView)
             {
-                var stream = File.OpenRead("path/to/your/local/pdf"); // Ensure you have a valid path
-                return new WebResourceResponse("application/pdf", "UTF-8", stream);
-            }
-            return base.ShouldInterceptRequest(view, request);
-        }
-    }
-}
+                string url = urlSource.Url;
 
-Create a Custom Handler for iOS
-csharp
-Copy code
-// Platforms/iOS/CustomWebViewHandler.cs
-// Platforms/iOS/CustomWebViewHandler.cs
-using Foundation;
-using Microsoft.Maui.Handlers;
-using WebKit;
-using YourNamespace;
-
-namespace YourNamespace.Platforms.iOS
-{
-    public partial class CustomWebViewHandler : WebViewHandler
-    {
-        protected override void ConnectHandler(WKWebView platformView)
-        {
-            base.ConnectHandler(platformView);
-
-            if (VirtualView is CustomWebView customWebView && customWebView.IsPdf)
-            {
-                var urlSchemeHandler = new PdfUrlSchemeHandler();
-                var config = platformView.Configuration;
-                config.SetUrlSchemeHandler(urlSchemeHandler, "pdf");
-
-                var url = new NSUrl($"pdf://{customWebView.Url}");
-                var request = new NSUrlRequest(url);
-                platformView.LoadRequest(request);
-            }
-        }
-    }
-
-    public class PdfUrlSchemeHandler : NSObject, IWKUrlSchemeHandler
-    {
-        public void StartUrlSchemeTask(WKWebView webView, IWKUrlSchemeTask urlSchemeTask)
-        {
-            var url = urlSchemeTask.Request.Url.AbsoluteString.Replace("pdf://", "");
-
-            if (url.StartsWith("http"))
-            {
-                var nsUrl = new NSUrl(url);
-                var data = NSData.FromUrl(nsUrl);
-                var response = new NSUrlResponse(nsUrl, "application/pdf", (nint)data.Length, null);
-                urlSchemeTask.DidReceiveResponse(response);
-                urlSchemeTask.DidReceiveData(data);
-                urlSchemeTask.DidFinish();
-            }
-            else
-            {
-                var localUrl = NSBundle.MainBundle.PathForResource(url, null);
-                var data = NSData.FromFile(localUrl);
-                var nsUrl = new NSUrl(localUrl);
-                var response = new NSUrlResponse(nsUrl, "application/pdf", (nint)data.Length, null);
-                urlSchemeTask.DidReceiveResponse(response);
-                urlSchemeTask.DidReceiveData(data);
-                urlSchemeTask.DidFinish();
-            }
-        }
-
-        public void StopUrlSchemeTask(IWKUrlSchemeTask urlSchemeTask)
-        {
-        }
-    }
-}
-
-Register the Custom Handlers
-Ensure you register your custom handlers in the MauiProgram.cs.
-
-csharp
-Copy code
-// MauiProgram.cs
-using Microsoft.Maui;
-using Microsoft.Maui.Controls.Hosting;
-using Microsoft.Maui.Hosting;
-using YourNamespace.Platforms.Android;
-using YourNamespace.Platforms.iOS;
-
-namespace YourNamespace
-{
-    public static class MauiProgram
-    {
-        public static MauiApp CreateMauiApp()
-        {
-            var builder = MauiApp.CreateBuilder();
-            builder
-                .UseMauiApp<App>()
-                .ConfigureMauiHandlers(handlers =>
+                // Check if the URL is a PDF file
+                if (IsPdfUrl(url))
                 {
-#if ANDROID
-                    handlers.AddHandler(typeof(CustomWebView), typeof(CustomWebViewHandler));
-#elif IOS
-                    handlers.AddHandler(typeof(CustomWebView), typeof(CustomWebViewHandler));
-#endif
-                });
+                    // Load PDF using platform-specific implementation
+                    LoadPdf(url, nativeWebView);
+                }
+                else
+                {
+                    // Load other URLs (e.g., HTML pages) using base class method
+                    base.UpdateSource();
+                }
+            }
+        }
 
-            return builder.Build();
+        private bool IsPdfUrl(string url)
+        {
+            return url.ToLower().EndsWith(".pdf");
+        }
+
+        private void LoadPdf(string pdfUrl, NativeWebView webView)
+        {
+            // Platform-specific handling for loading PDF
+            webView.LoadPdf(pdfUrl);
         }
     }
 }
-Usage in XAML
-Finally, use the custom WebView in your XAML pages.
+ ========
+using Android.Content;
+using Android.Webkit;
 
-xml
-Copy code
-<?xml version="1.0" encoding="utf-8" ?>
+namespace YourAppName.Android
+{
+    public class NativeWebView : WebView
+    {
+        public NativeWebView(Context context) : base(context)
+        {
+            // Additional initialization if needed
+        }
+
+        public void LoadPdf(string pdfUrl)
+        {
+            LoadUrl($"https://docs.google.com/gview?embedded=true&url={pdfUrl}");
+        }
+    }
+}
+=========
+using UIKit;
+using Foundation;
+using WebKit;
+
+namespace YourAppName.iOS
+{
+    public class NativeWebView : WKWebView
+    {
+        public NativeWebView(CGRect frame, WKWebViewConfiguration config) : base(frame, config)
+        {
+            // Additional initialization if needed
+        }
+
+        public void LoadPdf(string pdfUrl)
+        {
+            var request = new NSUrlRequest(new NSUrl(pdfUrl));
+            LoadRequest(request);
+        }
+    }
+}
+=======
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:YourNamespace"
-             x:Class="YourNamespace.MainPage">
+             xmlns:local="clr-namespace:YourAppName"
+             x:Class="YourAppName.MainPage">
 
-    <StackLayout>
-        <local:CustomWebView Url="https://example.com" IsPdf="false" />
-        <local:CustomWebView Url="file:///local/path/to/file.pdf" IsPdf="true" />
-        <local:CustomWebView Url="https://example.com/online.pdf" IsPdf="true" />
-    </StackLayout>
+    <WebView Source="https://example.com/document.pdf"
+             Handler="{StaticResource CustomWebViewHandler}" />
 
 </ContentPage>
