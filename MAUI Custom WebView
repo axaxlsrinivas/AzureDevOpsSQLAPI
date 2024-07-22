@@ -12,6 +12,51 @@ namespace YourNamespace.Platforms.Android
             base.ConnectHandler(platformView);
             platformView.SetWebViewClient(new CustomWebViewClient());
         }
+
+        protected override void DisconnectHandler(WebView platformView)
+        {
+            platformView.SetWebViewClient(null);
+            base.DisconnectHandler(platformView);
+        }
+    }
+
+    public class CustomWebViewClient : WebViewClient
+    {
+        public override bool ShouldOverrideUrlLoading(WebView view, IWebResourceRequest request)
+        {
+            // Log or break here to ensure the method is called
+            System.Diagnostics.Debug.WriteLine("CustomWebViewClient.ShouldOverrideUrlLoading called");
+            view.LoadUrl(request.Url.ToString());
+            return true;
+        }
+
+        public override bool ShouldOverrideUrlLoading(WebView view, string url)
+        {
+            // Log or break here to ensure the method is called
+            System.Diagnostics.Debug.WriteLine("CustomWebViewClient.ShouldOverrideUrlLoading called");
+            view.LoadUrl(url);
+            return true;
+        }
+    }
+}
+
+
+
+========
+// Platforms/Android/CustomWebViewHandler.cs
+using Android.Webkit;
+using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
+
+namespace YourNamespace.Platforms.Android
+{
+    public class CustomWebViewHandler : WebViewHandler
+    {
+        protected override void ConnectHandler(WebView platformView)
+        {
+            base.ConnectHandler(platformView);
+            platformView.SetWebViewClient(new CustomWebViewClient());
+        }
     }
 
     public class CustomWebViewClient : WebViewClient
