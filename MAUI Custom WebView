@@ -1,3 +1,40 @@
+using Microsoft.Maui.Controls;
+
+namespace NBHMVSCODEPOC
+{
+    public class CustomWebView : WebView
+    {
+        public CustomWebView()
+        {
+            // Set up WebView properties and behaviors as needed
+            // Configure WebView properties
+            VerticalOptions = LayoutOptions.Fill;
+            HorizontalOptions = LayoutOptions.Fill;
+
+            // Load PDFs or regular URLs
+            //Source = new UrlWebViewSource();
+        }
+
+        public void LoadUrl(string url)
+        {
+            // Load PDFs or regular URLs
+            Source = new UrlWebViewSource { Url = url };
+        }
+    }
+}
+
+// // Load a regular URL
+        //     webView.Source = new UrlWebViewSource { Url = "https://learn.microsoft.com/en-us/dotnet/maui/?view=net-maui-8.0" };
+
+        //     // Load a PDF URL
+        //     webView.Source = new UrlWebViewSource { Url = "https://www.adobe.com/support/products/enterprise/knowledgecenter/media/c4611_sample_explain.pdf" };
+
+		// Example loading URLs into the custom WebView
+        //webView.LoadUrl("https://learn.microsoft.com/en-us/dotnet/maui/?view=net-maui-8.0"); // Regular URL
+        webView.LoadUrl("https://www.antennahouse.com/hubfs/xsl-fo-sample/pdf/basic-link-1.pdf"); // PDF URL
+
+
+==========
 In .NET MAUI, the WebViewRenderer is obsolete, and instead, you should use the WebViewHandler to customize the behavior of a WebView. Let's update the implementation to use WebViewHandler for both Android and iOS platforms.
 
 Step-by-Step Implementation
