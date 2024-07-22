@@ -1,3 +1,70 @@
+// Platforms/Android/CustomWebViewHandler.cs
+using Android.Webkit;
+using Microsoft.Maui.Handlers;
+using Microsoft.Maui.Platform;
+
+namespace YourNamespace.Platforms.Android
+{
+    public class CustomWebViewHandler : WebViewHandler
+    {
+        protected override void ConnectHandler(WebView platformView)
+        {
+            base.ConnectHandler(platformView);
+            platformView.SetWebViewClient(new CustomWebViewClient());
+        }
+    }
+
+    public class CustomWebViewClient : WebViewClient
+    {
+        public override bool ShouldOverrideUrlLoading(WebView view, IWebResourceRequest request)
+        {
+            view.LoadUrl(request.Url.ToString());
+            return true;
+        }
+
+        public override bool ShouldOverrideUrlLoading(WebView view, string url)
+        {
+            view.LoadUrl(url);
+            return true;
+        }
+    }
+}
+
+// MauiProgram.cs
+using Microsoft.Maui.Hosting;
+using YourNamespace.Platforms.Android;
+
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .ConfigureMauiHandlers(handlers =>
+            {
+                handlers.AddHandler<CustomWebView, CustomWebViewHandler>();
+            });
+
+        return builder.Build();
+    }
+}
+
+protected override void ConnectHandler(WebView platformView)
+{
+    base.ConnectHandler(platformView);
+
+    var settings = platformView.Settings;
+    settings.JavaScriptEnabled = true;
+    settings.AllowFileAccess = true;
+    settings.AllowContentAccess = true;
+
+    platformView.SetWebViewClient(new CustomWebViewClient());
+}
+
+
+
+=========
 // CustomWebView.cs
 using Microsoft.Maui.Controls;
 
