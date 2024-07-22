@@ -1,6 +1,65 @@
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Platform;
 
+namespace YourNamespace
+{
+    public class CustomWebViewHandler : WebViewHandler
+    {
+        protected override void OnElementChanged(ElementChangedEventArgs<WebView> e)
+        {
+            base.OnElementChanged(e);
+
+            if (e.NewElement != null)
+            {
+                // Configure settings or behavior if needed
+            }
+        }
+
+        public override void LoadUrl(string url)
+        {
+            if (url.ToLower().EndsWith(".pdf"))
+            {
+                // Handle PDF loading separately
+                LoadPdf(url);
+            }
+            else
+            {
+                // Handle other URLs normally
+                base.LoadUrl(url);
+            }
+        }
+
+        private void LoadPdf(string pdfUrl)
+        {
+            // Implement PDF loading logic here
+            // Example: Load the PDF into the WebView
+            Control.LoadUrl(pdfUrl); // Control is the native WebView control
+        }
+    }
+}
+
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:YourNamespace"
+             x:Class="YourNamespace.MainPage">
+    
+    <WebView>
+        <WebView.WebViewHandler>
+            <local:CustomWebViewHandler />
+        </WebView.WebViewHandler>
+    </WebView>
+
+</ContentPage>
+
+
+string pdfUrl = "http://example.com/sample.pdf";
+webView.Source = new Uri(pdfUrl);
+
+
+====== OLD ======
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Controls.Platform;
+
 namespace YourAppName
 {
     public class CustomWebViewHandler : WebViewHandler
