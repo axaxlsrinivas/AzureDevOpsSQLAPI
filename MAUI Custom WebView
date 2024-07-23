@@ -1,228 +1,313 @@
-                Control.LoadUrl($"https://docs.google.com/gview?embedded=true&url={Element.Uri}");
+Enum:
+namespace OpenPDF.Domain.Enums
+{
+    public enum OpenOption
+    {
+        InApp,
+        ChooseApp
+    }
 
-=====
-Microsoft.Maui.Handlers.WebViewHandler.Mapper.AppendToMapping("MyCustomization", (handler, view) =>
+}
+============
+Interface:
+using OpenPDF.Domain.Enums;
+
+namespace OpenPDF.Interfaces
+{
+    public interface IFilesService
+    {
+        Task SaveAndView(string fileName, MemoryStream stream, OpenOption context, string contentType ="application/pdf");
+    }
+}
+=======
+Android -> Services 
+using Android.Content;
+using Android.Webkit;
+using OpenPDF.Domain.Enums;
+using OpenPDF.Interfaces;
+using AndroidNet = Android.Net;
+using AndroidApplication = Android.App.Application;
+
+namespace OpenPDF.Platforms.Android.Services
+{
+    public class FilesService : IFilesService
+    {
+        public async Task SaveAndView(string fileName, MemoryStream stream, OpenOption context, string contentType = "application/pdf")
+        {
+            string exception = string.Empty;
+            string root = null;
+            root = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            Java.IO.File myDir = new Java.IO.File(Path.Combine(root, "OpenPDF"));
+            myDir.Mkdir();
+            Java.IO.File file = new Java.IO.File(myDir, fileName);
+            if (file.Exists())
             {
-#if ANDROID
-                if (view is PDFViewForUrl)
+                file.Delete();
+            }
+            try
+            {
+                Java.IO.FileOutputStream outStream = new Java.IO.FileOutputStream(file);
+                outStream.Write(stream.ToArray());
+                outStream.Flush();
+                outStream.Close();
+            }
+            catch (System.Exception exp)
+            {
+
+                exception = exp.ToString();
+            }
+
+            if (file.Exists() && contentType != "application/html")
+            {
+
+                string extension = MimeTypeMap.GetFileExtensionFromUrl(AndroidNet.Uri.FromFile(file).ToString());
+                string mimeType = MimeTypeMap.Singleton.GetMimeTypeFromExtension(extension);
+                Intent intent = new Intent(Intent.ActionView);
+                intent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.NewTask);
+                AndroidNet.Uri path = AndroidX.Core.Content.FileProvider.GetUriForFile(AndroidApplication.Context, $"{AndroidApplication.Context.PackageName}.provider", file);
+                intent.SetDataAndType(path, mimeType);
+                intent.AddFlags(ActivityFlags.GrantReadUriPermission);
+                switch (context)
                 {
-                    handler.PlatformView.Settings.JavaScriptEnabled = true;
-                    string res = "";
-                    if (view != null)
-                    {
-                        WebView webView = view as WebView;
-                        if (webView.Source.GetType().Equals(typeof(UrlWebViewSource)))
-                        {
-                            UrlWebViewSource uriwebviewSource = webView.Source as UrlWebViewSource;
-                            res = string.Format("https://drive.google.com/viewerng/viewer?url={0}", uriwebviewSource.Url.ToString());
-                        }
-                    }
-                    handler.PlatformView.LoadUrl(res);
+
+                    default:
+                    case OpenOption.InApp:
+                        AndroidApplication.Context.StartActivity(intent);
+
+                        break;
+                    case OpenOption.ChooseApp:
+
+                        var chooseIntent = Intent.CreateChooser(intent, "Choose an application");
+                        chooseIntent.AddFlags(ActivityFlags.ClearTop | ActivityFlags.NewTask);
+
+                        AndroidApplication.Context.StartActivity(intent);
+                        break;
                 }
-#endif
-            });
-===============
-// Platforms/Android/CustomWebViewHandler.cs
-using Android.Webkit;
-using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Platform;
-
-namespace YourNamespace.Platforms.Android
-{
-    public class CustomWebViewHandler : WebViewHandler
-    {
-        protected override void ConnectHandler(WebView platformView)
-        {
-            base.ConnectHandler(platformView);
-            platformView.SetWebViewClient(new CustomWebViewClient());
-        }
-
-        protected override void DisconnectHandler(WebView platformView)
-        {
-            platformView.SetWebViewClient(null);
-            base.DisconnectHandler(platformView);
-        }
-    }
-
-    public class CustomWebViewClient : WebViewClient
-    {
-        public override bool ShouldOverrideUrlLoading(WebView view, IWebResourceRequest request)
-        {
-            // Log or break here to ensure the method is called
-            System.Diagnostics.Debug.WriteLine("CustomWebViewClient.ShouldOverrideUrlLoading called");
-            view.LoadUrl(request.Url.ToString());
-            return true;
-        }
-
-        public override bool ShouldOverrideUrlLoading(WebView view, string url)
-        {
-            // Log or break here to ensure the method is called
-            System.Diagnostics.Debug.WriteLine("CustomWebViewClient.ShouldOverrideUrlLoading called");
-            view.LoadUrl(url);
-            return true;
+                await Task.CompletedTask;
+            }
         }
     }
 }
-
-
-
-========
-// Platforms/Android/CustomWebViewHandler.cs
-using Android.Webkit;
-using Microsoft.Maui.Handlers;
-using Microsoft.Maui.Platform;
-
-namespace YourNamespace.Platforms.Android
-{
-    public class CustomWebViewHandler : WebViewHandler
-    {
-        protected override void ConnectHandler(WebView platformView)
-        {
-            base.ConnectHandler(platformView);
-            platformView.SetWebViewClient(new CustomWebViewClient());
-        }
-    }
-
-    public class CustomWebViewClient : WebViewClient
-    {
-        public override bool ShouldOverrideUrlLoading(WebView view, IWebResourceRequest request)
-        {
-            view.LoadUrl(request.Url.ToString());
-            return true;
-        }
-
-        public override bool ShouldOverrideUrlLoading(WebView view, string url)
-        {
-            view.LoadUrl(url);
-            return true;
-        }
-    }
-}
-
-// MauiProgram.cs
-using Microsoft.Maui.Hosting;
-using YourNamespace.Platforms.Android;
-
-public static class MauiProgram
-{
-    public static MauiApp CreateMauiApp()
-    {
-        var builder = MauiApp.CreateBuilder();
-        builder
-            .UseMauiApp<App>()
-            .ConfigureMauiHandlers(handlers =>
-            {
-                handlers.AddHandler<CustomWebView, CustomWebViewHandler>();
-            });
-
-        return builder.Build();
-    }
-}
-
-protected override void ConnectHandler(WebView platformView)
-{
-    base.ConnectHandler(platformView);
-
-    var settings = platformView.Settings;
-    settings.JavaScriptEnabled = true;
-    settings.AllowFileAccess = true;
-    settings.AllowContentAccess = true;
-
-    platformView.SetWebViewClient(new CustomWebViewClient());
-}
-
-
-
 =========
-// CustomWebView.cs
-using Microsoft.Maui.Controls;
+Android Manifest:
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.companyname.openpdf" android:versionCode="1" android:versionName="1.0">
+	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true" android:label="OpenPDF">
+		<provider android:name="androidx.core.content.FileProvider" android:authorities="${applicationId}.provider" android:exported="false" android:grantUriPermissions="true">
+			<meta-data android:name="android.support.FILE_PROVIDER_PATHS" android:resource="@xml/provider_paths" />
+		</provider>		
+    </application>
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<uses-sdk android:minSdkVersion="29" android:targetSdkVersion="33" />
+</manifest>
+=========
+Main Activity:
+using Android.App;
+using Android.Content.PM;
+using Android.OS;
 
-public class CustomWebView : WebView
+namespace OpenPDF;
+
+[Activity(Theme = "@style/Maui.SplashTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize | ConfigChanges.Density)]
+public class MainActivity : MauiAppCompatActivity
 {
-}
-
-// Platforms/Android/CustomWebViewHandler.cs (for Android)
-using Android.Webkit;
-using Microsoft.Maui.Handlers;
-
-namespace YourNamespace.Platforms.Android
-{
-    public class CustomWebViewHandler : WebViewHandler
+    public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
     {
-        protected override void ConnectHandler(WebView platformView)
+        if (permissions.ToList().Where(x => x == "WRITE_MEDIA_STORAGE") != null)
         {
-            base.ConnectHandler(platformView);
-            platformView.SetWebViewClient(new CustomWebViewClient());
+            var grants = new Permission[] { Permission.Granted };
+            //Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grants);
+            base.OnRequestPermissionsResult(requestCode, permissions, grants);
+
+        }
+        else
+        {
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
+            //Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+    }
+}
+==========
+iOS -> Services
+using System;
+using OpenPDF.Domain.Enums;
+using OpenPDF.Interfaces;
+using OpenPDF.Platforms.iOS.Helpers;
+using QuickLook;
+using UIKit;
+
+namespace OpenPDF.Platforms.iOS.Services
+{
+	public class FilesService: IFilesService
+	{
+        public async Task SaveAndView(string fileName, MemoryStream stream, OpenOption context, string contentType = "application/pdf")
+        {
+            string path = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            string filePath = Path.Combine(path, fileName);
+
+            FileStream fileStream = File.Open(filePath, FileMode.Create);
+            stream.Position = 0;
+
+            await stream.CopyToAsync(fileStream);
+            await fileStream.FlushAsync();
+            fileStream.Close();
+
+            UIViewController currentController = UIApplication.SharedApplication.KeyWindow.RootViewController;
+            while (currentController.PresentedViewController != null)
+                currentController = currentController.PresentedViewController;
+
+            UIView currentView = currentController.View;
+            QLPreviewController qLPreview = new QLPreviewController();
+            QLPreviewItem item = new QLPreviewItemBundle(fileName, filePath);
+            qLPreview.DataSource = new PreviewControllerDS(item);
+            currentController.PresentViewController(qLPreview, true, null);
         }
     }
+}
+==========
+iOS -> Helpers
+using System;
+using QuickLook;
 
-    public class CustomWebViewClient : WebViewClient
-    {
-        public override bool ShouldOverrideUrlLoading(WebView view, IWebResourceRequest request)
+namespace OpenPDF.Platforms.iOS.Helpers
+{
+	public class PreviewControllerDS: QLPreviewControllerDataSource
+	{
+		private QLPreviewItem _item;
+		public PreviewControllerDS(QLPreviewItem item)
+		{
+			_item = item;
+		}
+
+        
+        public override nint PreviewItemCount(QLPreviewController controller)
         {
-            view.LoadUrl(request.Url.ToString());
-            return true;
+			return 1;
+        }
+
+        public override IQLPreviewItem GetPreviewItem(QLPreviewController controller, nint index)
+        {
+            return _item;
         }
     }
 }
-
-// Platforms/iOS/CustomWebViewHandler.cs (for iOS)
+---------
+using System;
 using Foundation;
-using Microsoft.Maui.Handlers;
-using WebKit;
+using QuickLook;
 
-namespace YourNamespace.Platforms.iOS
+namespace OpenPDF.Platforms.iOS.Helpers
 {
-    public class CustomWebViewHandler : WebViewHandler
+    public class QLPreviewItemBundle : QLPreviewItem
     {
-        protected override void ConnectHandler(WKWebView platformView)
+        private string _fileName, _filePath;
+        public QLPreviewItemBundle(string fileName, string filePath)
         {
-            base.ConnectHandler(platformView);
-            platformView.NavigationDelegate = new CustomWebViewNavigationDelegate();
+            _fileName = fileName;
+            _filePath = filePath;
         }
-    }
 
-    public class CustomWebViewNavigationDelegate : WKNavigationDelegate
-    {
-        public override void DecidePolicy(WKWebView webView, WKNavigationAction navigationAction, Action<WKNavigationActionPolicy> decisionHandler)
+        public override string PreviewItemTitle => _fileName;
+        public override NSUrl PreviewItemUrl
         {
-            decisionHandler(WKNavigationActionPolicy.Allow);
+            get
+            {
+                var documents = NSBundle.MainBundle.BundlePath;
+                var lib = Path.Combine(documents, _filePath);
+                var url = NSUrl.FromFilename(lib);
+                return url;
+            }
         }
     }
 }
+---------
+using System;
+using Foundation;
+using QuickLook;
 
-// MauiProgram.cs
-using Microsoft.Maui.Controls.Hosting;
-using Microsoft.Maui.Hosting;
-using YourNamespace.Platforms.Android;
-using YourNamespace.Platforms.iOS;
+namespace OpenPDF.Platforms.iOS.Helpers
+{
+	public class QLPreviewItemFileSystem: QLPreviewItem
+	{
+		string _fileName, _filePath;
+		public QLPreviewItemFileSystem(string fileName, string filePath)
+		{
+			_fileName = fileName;
+			_filePath = filePath;
+		}
+
+		public override string PreviewItemTitle => _fileName;
+
+        public override NSUrl PreviewItemUrl => NSUrl.FromString(_filePath);
+
+    }
+}
+===========
+Maui Programme:
+using Microsoft.Extensions.Logging;
+using OpenPDF.Interfaces;
+
+#if ANDROID
+using OpenPDF.Platforms.Android.Services;
+
+#elif IOS
+using OpenPDF.Platforms.iOS.Services;
+
+#endif
+
+namespace OpenPDF;
 
 public static class MauiProgram
 {
-    public static MauiApp CreateMauiApp()
-    {
-        var builder = MauiApp.CreateBuilder();
-        builder
-            .UseMauiApp<App>()
-            .ConfigureMauiHandlers(handlers =>
-            {
-                #if ANDROID
-                handlers.AddHandler(typeof(CustomWebView), typeof(CustomWebViewHandler));
-                #elif IOS
-                handlers.AddHandler(typeof(CustomWebView), typeof(CustomWebViewHandler));
-                #endif
-            });
+	public static MauiApp CreateMauiApp()
+	{
+		var builder = MauiApp.CreateBuilder();
+		builder
+			.UseMauiApp<App>()
+			.ConfigureFonts(fonts =>
+			{
+				fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+				fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+			});
 
+#if DEBUG
+		builder.Logging.AddDebug();
+#endif
+
+
+#if ANDROID
+        builder.Services.AddTransient<IFilesService, FilesService>();
+#elif IOS
+        builder.Services.AddTransient<IFilesService, FilesService>();
+#endif
         return builder.Build();
-    }
+	}
 }
+=========
+MainPage.CS:
+using OpenPDF.Interfaces;
+using OpenPDF.Platforms.iOS.Services;
+namespace OpenPDF;
 
-<!-- MainPage.xaml -->
-<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:YourNamespace"
-             x:Class="YourNamespace.MainPage">
 
-    <local:CustomWebView Source="https://www.example.com/yourpdf.pdf" />
-</ContentPage>
+public partial class MainPage : ContentPage
+{
+	private IFilesService filesService = new FilesService();
+	public MainPage()
+	{
+		InitializeComponent();
+	}
+
+	private async void OnCounterClicked(object sender, EventArgs e)
+	{
+		HttpClient httpClient = new HttpClient();
+		var content = await  httpClient.GetAsync("https://raw.githubusercontent.com/dotnet-architecture/eBooks/main/current/microservices/NET-Microservices-Architecture-for-Containerized-NET-Applications.pdf");
+		var stream = new MemoryStream(await content.Content.ReadAsByteArrayAsync());
+		 await filesService.SaveAndView("pdfFile.pdf", stream, Domain.Enums.OpenOption.InApp);
+			
+	}
+}
