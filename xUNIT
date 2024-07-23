@@ -1,63 +1,67 @@
-using Microsoft.Maui.Controls;
 using Xunit;
+using Microsoft.Maui.Controls;
+using MyApp;
 
-public class CustomLabelTests
+public class MyContentViewTests
 {
     [Fact]
-    public void CustomTextProperty_DefaultValue_IsNull()
+    public void TextProperty_Should_Set_Label_Text()
     {
         // Arrange
-        var customLabel = new CustomLabel();
-
+        var contentView = new MyContentView();
+        var expectedText = "Hello, World!";
+        
         // Act
-        var defaultValue = customLabel.CustomText;
-
+        contentView.TextProperty = expectedText;
+        
         // Assert
-        Assert.Null(defaultValue);
+        var label = (Label)contentView.Content;
+        Assert.Equal(expectedText, label.Text);
     }
+}
 
+
+using Xunit;
+using Microsoft.Maui.Controls;
+using MyApp;
+
+public class MyContentViewTests
+{
     [Fact]
-    public void CustomTextProperty_SetAndGet_ValueIsCorrect()
+    public void BackgroundColorProperty_Should_Set_BoxView_Color()
     {
         // Arrange
-        var customLabel = new CustomLabel();
-        var expectedValue = "Test Text";
-
+        var contentView = new MyContentView();
+        var expectedColor = Colors.Red; // Use appropriate Color instance
+        
         // Act
-        customLabel.CustomText = expectedValue;
-        var actualValue = customLabel.CustomText;
-
+        contentView.BackgroundColorProperty = expectedColor;
+        
         // Assert
-        Assert.Equal(expectedValue, actualValue);
+        var boxView = (BoxView)contentView.Content;
+        Assert.Equal(expectedColor, boxView.Color);
     }
+}
 
+
+using Xunit;
+using Microsoft.Maui.Controls;
+using MyApp;
+
+public class MyContentViewTests
+{
     [Fact]
-    public void CustomTextProperty_Binding_ValueIsUpdated()
+    public void ImageSourceProperty_Should_Set_Image_Source()
     {
         // Arrange
-        var viewModel = new ViewModel { Text = "Initial Text" };
-        var customLabel = new CustomLabel();
-        customLabel.BindingContext = viewModel;
-
+        var contentView = new MyContentView();
+        var expectedImageSource = ImageSource.FromFile("example.png");
+        
         // Act
-        customLabel.SetBinding(CustomLabel.CustomTextProperty, nameof(viewModel.Text));
-        viewModel.Text = "Updated Text";
-
+        contentView.ImageSourceProperty = expectedImageSource;
+        
         // Assert
-        Assert.Equal("Updated Text", customLabel.CustomText);
-    }
-
-    private class ViewModel : BindableObject
-    {
-        private string text;
-        public string Text
-        {
-            get => text;
-            set
-            {
-                text = value;
-                OnPropertyChanged();
-            }
-        }
+        var image = (Image)contentView.Content;
+        Assert.Equal(expectedImageSource, image.Source);
     }
 }
