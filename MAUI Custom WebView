@@ -1,3 +1,6 @@
+                Control.LoadUrl($"https://docs.google.com/gview?embedded=true&url={Element.Uri}");
+
+=====
 Microsoft.Maui.Handlers.WebViewHandler.Mapper.AppendToMapping("MyCustomization", (handler, view) =>
             {
 #if ANDROID
