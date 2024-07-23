@@ -1,0 +1,63 @@
+using Microsoft.Maui.Controls;
+using Xunit;
+
+public class CustomLabelTests
+{
+    [Fact]
+    public void CustomTextProperty_DefaultValue_IsNull()
+    {
+        // Arrange
+        var customLabel = new CustomLabel();
+
+        // Act
+        var defaultValue = customLabel.CustomText;
+
+        // Assert
+        Assert.Null(defaultValue);
+    }
+
+    [Fact]
+    public void CustomTextProperty_SetAndGet_ValueIsCorrect()
+    {
+        // Arrange
+        var customLabel = new CustomLabel();
+        var expectedValue = "Test Text";
+
+        // Act
+        customLabel.CustomText = expectedValue;
+        var actualValue = customLabel.CustomText;
+
+        // Assert
+        Assert.Equal(expectedValue, actualValue);
+    }
+
+    [Fact]
+    public void CustomTextProperty_Binding_ValueIsUpdated()
+    {
+        // Arrange
+        var viewModel = new ViewModel { Text = "Initial Text" };
+        var customLabel = new CustomLabel();
+        customLabel.BindingContext = viewModel;
+
+        // Act
+        customLabel.SetBinding(CustomLabel.CustomTextProperty, nameof(viewModel.Text));
+        viewModel.Text = "Updated Text";
+
+        // Assert
+        Assert.Equal("Updated Text", customLabel.CustomText);
+    }
+
+    private class ViewModel : BindableObject
+    {
+        private string text;
+        public string Text
+        {
+            get => text;
+            set
+            {
+                text = value;
+                OnPropertyChanged();
+            }
+        }
+    }
+}
