@@ -1,3 +1,27 @@
+assembly: ExportRenderer(typeof(CustomWebView), typeof(CustomWebViewRenderer))]
+namespace PdfViewerExample.Platforms.iOS
+{
+    public class CustomWebViewRenderer : ViewRenderer<CustomWebView, WKWebView>
+    {
+        protected override void OnElementChanged(ElementChangedEventArgs<CustomWebView> e)
+        {
+            base.OnElementChanged(e);
+
+            if (Control == null && e.NewElement != null)
+            {
+                var wkWebView = new WKWebView(Frame, new WKWebViewConfiguration());
+                SetNativeControl(wkWebView);
+            }
+
+            if (e.NewElement != null)
+            {
+                Control.LoadRequest(new NSUrlRequest(new NSUrl(Element.Uri)));
+            }
+        }
+    }
+}
+
+======= IMP - PDF SAVE AND VIEW =====
 Enum:
 namespace OpenPDF.Domain.Enums
 {
