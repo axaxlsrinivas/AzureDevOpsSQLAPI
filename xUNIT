@@ -1,3 +1,63 @@
+using Xunit;
+using Microsoft.Maui.Controls;
+
+public class MyContentViewTests
+{
+    [Fact]
+    public void MyProperty_DefaultValue_IsNull()
+    {
+        // Arrange
+        var contentView = new MyContentView();
+
+        // Act
+        var result = contentView.MyProperty;
+
+        // Assert
+        Assert.Null(result);
+    }
+
+    [Fact]
+    public void MyProperty_SetValue_UpdatesBindableProperty()
+    {
+        // Arrange
+        var contentView = new MyContentView();
+        var expectedValue = "Test Value";
+
+        // Act
+        contentView.MyProperty = expectedValue;
+
+        // Assert
+        Assert.Equal(expectedValue, contentView.MyProperty);
+    }
+
+    [Fact]
+    public void MyProperty_ChangeNotification_FiresPropertyChanged()
+    {
+        // Arrange
+        var contentView = new MyContentView();
+        var expectedValue = "New Value";
+        bool propertyChangedFired = false;
+
+        // Subscribe to PropertyChanged event
+        contentView.PropertyChanged += (sender, args) =>
+        {
+            if (args.PropertyName == nameof(MyContentView.MyProperty))
+            {
+                propertyChangedFired = true;
+            }
+        };
+
+        // Act
+        contentView.MyProperty = expectedValue;
+
+        // Assert
+        Assert.True(propertyChangedFired);
+    }
+}
+
+
+======
+
 using System.Threading.Tasks;
 using Xunit;
 using YourNamespace; // Replace with your actual namespace
