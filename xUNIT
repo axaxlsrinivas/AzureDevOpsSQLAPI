@@ -1,3 +1,96 @@
+using System.Threading.Tasks;
+using Xunit;
+using YourNamespace; // Replace with your actual namespace
+using Microsoft.Maui.Controls;
+using Microsoft.Maui.Dispatching;
+
+namespace YourNamespace.Tests
+{
+    public class CustomContentViewTests
+    {
+        private async Task RunOnMainThreadAsync(Func<Task> action)
+        {
+            await MainThread.InvokeOnMainThreadAsync(action);
+        }
+
+        [Fact]
+        public async Task CustomContentView_ShouldInitializeComponents()
+        {
+            await RunOnMainThreadAsync(async () =>
+            {
+                // Arrange
+                var customContentView = new CustomContentView();
+
+                // Act
+                var image = customContentView.Content.FindByName<Image>("Image");
+                var label = customContentView.Content.FindByName<Label>("Label");
+
+                // Assert
+                Assert.NotNull(image);
+                Assert.NotNull(label);
+                Assert.IsType<StackLayout>(customContentView.Content);
+            });
+        }
+
+        [Fact]
+        public async Task CustomContentView_ShouldSetLabelTextBindableProperty()
+        {
+            await RunOnMainThreadAsync(async () =>
+            {
+                // Arrange
+                var customContentView = new CustomContentView();
+                string testText = "Test Label";
+
+                // Act
+                customContentView.LabelText = testText;
+
+                // Assert
+                Assert.Equal(testText, customContentView.LabelText);
+                var label = customContentView.Content.FindByName<Label>("Label");
+                Assert.Equal(testText, label.Text);
+            });
+        }
+
+        [Fact]
+        public async Task CustomContentView_ShouldSetBackgroundColorBindableProperty()
+        {
+            await RunOnMainThreadAsync(async () =>
+            {
+                // Arrange
+                var customContentView = new CustomContentView();
+                Color testColor = Colors.Red;
+
+                // Act
+                customContentView.BackgroundColor = testColor;
+
+                // Assert
+                Assert.Equal(testColor, customContentView.BackgroundColor);
+                Assert.Equal(testColor, customContentView.BackgroundColor);
+            });
+        }
+
+        [Fact]
+        public async Task CustomContentView_ShouldSetImageSourceBindableProperty()
+        {
+            await RunOnMainThreadAsync(async () =>
+            {
+                // Arrange
+                var customContentView = new CustomContentView();
+                string testImageSource = "test.png";
+
+                // Act
+                customContentView.ImageSource = ImageSource.FromFile(testImageSource);
+
+                // Assert
+                Assert.Equal(testImageSource, ((FileImageSource)customContentView.ImageSource).File);
+                var image = customContentView.Content.FindByName<Image>("Image");
+                Assert.Equal(testImageSource, ((FileImageSource)image.Source).File);
+            });
+        }
+    }
+}
+
+========
 [SetUp]
 public void Setup()
 {
