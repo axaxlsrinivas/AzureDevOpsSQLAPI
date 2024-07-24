@@ -122,3 +122,48 @@ public class LabelStyleTests
     }
 }
 
+======
+
+using Xunit;
+using Microsoft.Maui.Controls;
+
+public class LabelStyleTests
+{
+    public LabelStyleTests()
+    {
+        // Initialize the application and its resources
+        var app = new Application();
+        Application.Current = app;
+
+        // Add the necessary resources
+        app.Resources = new ResourceDictionary
+        {
+            { "xunitColor", Colors.Red },
+            { "xunitStyle", new Style(typeof(Label))
+                {
+                    Setters =
+                    {
+                        new Setter { Property = Label.TextColorProperty, Value = new StaticResourceExtension { Key = "xunitColor" } },
+                        new Setter { Property = Label.FontSizeProperty, Value = 24 }
+                    }
+                }
+            }
+        };
+    }
+
+    [Fact]
+    public void Label_ShouldApplyXunitStyle()
+    {
+        // Arrange
+        var label = new Label();
+        label.Style = (Style)Application.Current.Resources["xunitStyle"];
+
+        // Act
+        var textColor = label.TextColor;
+        var fontSize = label.FontSize;
+
+        // Assert
+        Assert.Equal(Colors.Red, textColor);
+        Assert.Equal(24, fontSize);
+    }
+}
