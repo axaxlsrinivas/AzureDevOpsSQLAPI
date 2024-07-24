@@ -1,3 +1,21 @@
+[SetUp]
+public void Setup()
+{
+    var app = new Application();
+    var resources = new ResourceDictionary();
+    resources.Add("LabelStyle", new Style(typeof(Label))
+    {
+        Setters =
+        {
+            new Setter { Property = Label.FontSizeProperty, Value = 20 },
+            new Setter { Property = Label.TextColorProperty, Value = Colors.Black }
+        }
+    });
+    app.Resources = resources;
+    Application.Current = app;
+}
+
+=====
 // CustomContentViewTests.cs
 using System;
 using Xunit;
