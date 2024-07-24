@@ -65,3 +65,60 @@ public class MyContentViewTests
         Assert.Equal(expectedImageSource, image.Source);
     }
 }
+
+
+======
+
+
+using Xunit;
+using Microsoft.Maui.Controls;
+
+public class LabelStyleTests
+{
+    public LabelStyleTests()
+    {
+        // Initialize the application and its resources
+        var app = new Application();
+        Application.Current = app;
+
+        // Add the necessary resources
+        app.Resources = new ResourceDictionary
+        {
+            {
+                "TestLabelStyle", new Style(typeof(Label))
+                {
+                    Setters =
+                    {
+                        new Setter { Property = Label.TextColorProperty, Value = Colors.Red },
+                        new Setter { Property = Label.FontSizeProperty, Value = 24 }
+                    }
+                }
+            }
+        };
+    }
+
+    [Fact]
+    public void Label_ShouldApplyTestLabelStyle()
+    {
+        // Arrange
+        var label = new Label();
+        label.Style = (Style)Application.Current.Resources["TestLabelStyle"];
+
+        // Act & Assert
+        Assert.Equal(Colors.Red, label.TextColor);
+        Assert.Equal(24, label.FontSize);
+    }
+
+    [Fact]
+    public void Label_ShouldApplyTestLabelStyle_UsingDynamicResource()
+    {
+        // Arrange
+        var label = new Label();
+        label.SetDynamicResource(Label.StyleProperty, "TestLabelStyle");
+
+        // Act & Assert
+        Assert.Equal(Colors.Red, label.TextColor);
+        Assert.Equal(24, label.FontSize);
+    }
+}
+
