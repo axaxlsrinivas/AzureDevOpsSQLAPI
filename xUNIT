@@ -1,4 +1,55 @@
 using Xunit;
+using Moq;
+using Microsoft.Maui.Controls;
+
+namespace CustomWebViewTests
+{
+    public class CustomWebViewTests
+    {
+        [Fact]
+        public void ImageSource_Property_SetAndGet()
+        {
+            // Arrange
+            var customWebView = new CustomWebView();
+            var imageSource = ImageSource.FromFile("example.png");
+
+            // Act
+            customWebView.ImageSource = imageSource;
+            var result = customWebView.ImageSource;
+
+            // Assert
+            Assert.Equal(imageSource, result);
+        }
+
+        [Fact]
+        public void ImageSource_DefaultValue_IsNull()
+        {
+            // Arrange
+            var customWebView = new CustomWebView();
+
+            // Act
+            var result = customWebView.ImageSource;
+
+            // Assert
+            Assert.Null(result);
+        }
+    }
+
+    public class CustomWebView : View
+    {
+        public static readonly BindableProperty ImageSourceProperty =
+            BindableProperty.Create(nameof(ImageSource), typeof(ImageSource), typeof(CustomWebView));
+
+        public ImageSource ImageSource
+        {
+            get => (ImageSource)GetValue(ImageSourceProperty);
+            set => SetValue(ImageSourceProperty, value);
+        }
+    }
+}
+
+============
+using Xunit;
 using Microsoft.Maui.Controls;
 
 public class MyContentViewTests
