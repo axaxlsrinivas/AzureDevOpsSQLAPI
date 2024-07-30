@@ -14,3 +14,130 @@ catch (HttpRequestException ex)
     Console.WriteLine($"Error downloading PDF: {ex.Message}");
 }
 }
+
+========
+
+using System;
+using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Moq;
+using Moq.Protected;
+using Xunit;
+
+public class YourClassTests
+{
+    [Fact]
+    public async Task TermsAndConditionsItemTappedAsync_DownloadsAndSavesPDF_Success()
+    {
+        // Arrange
+        var mockHandler = new Mock<HttpMessageHandler>();
+        mockHandler.Protected()
+                   .Setup<Task<HttpResponseMessage>>(
+                       "SendAsync",
+                       ItExpr.IsAny<HttpRequestMessage>(),
+                       ItExpr.IsAny<CancellationToken>()
+                   )
+                   .ReturnsAsync(new HttpResponseMessage
+                   {
+                       StatusCode = HttpStatusCode.OK,
+                       Content = new ByteArrayContent(new byte[] { 1, 2, 3, 4 })
+                   });
+
+        var httpClient = new HttpClient(mockHandler.Object);
+
+        var mockFilesService = new Mock<IFilesService>();
+        mockFilesService.Setup(fs => fs.SaveAndViewPDF(It.IsAny<string>(), It.IsAny<Stream>(), It.IsAny<PDFOpenOption>()))
+                        .Returns(Task.CompletedTask);
+
+        var yourClassInstance = new YourClass(httpClient, mockFilesService.Object);
+
+        // Act
+        await yourClassInstance.TermsAndConditionsItemTappedAsync();
+
+        // Assert
+        mockFilesService.Verify(fs => fs.SaveAndViewPDF(
+            "GENERAL_T&Cs.pdf", 
+            It.IsAny<MemoryStream>(), 
+            PDFOpenOption.InApp), Times.Once);
+    }
+
+    [Fact]
+    public async Task TermsAndConditionsItemTappedAsync_HandlesHttpRequestException()
+    {
+        // Arrange
+        var mockHandler = new Mock<HttpMessageHandler>();
+        mockHandler.Protected()
+                   .Setup<Task<HttpResponseMessage>>(
+                       "SendAsync",
+                       ItExpr.IsAny<HttpRequestMessage>(),
+                       ItExpr.IsAny<CancellationToken>()
+                   )
+                   .ThrowsAsync(new HttpRequestException("Network error"));
+
+        var httpClient = new HttpClient(mockHandler.Object);
+
+        var mockFilesService = new Mock<IFilesService>();
+
+        var yourClassInstance = new YourClass(httpClient, mockFilesService.Object);
+
+        // Act
+        var exception = await Record.ExceptionAsync(() => yourClassInstance.TermsAndConditionsItemTappedAsync());
+
+        // Assert
+        Assert.Null(exception);
+        // Optionally verify that SaveAndViewPDF was not called
+        mockFilesService.Verify(fs => fs.SaveAndViewPDF(
+            It.IsAny<string>(), 
+            It.IsAny<Stream>(), 
+            It.IsAny<PDFOpenOption>()), Times.Never);
+    }
+}
+
+// Assuming YourClass is the class that contains the method TermsAndConditionsItemTappedAsync
+public class YourClass
+{
+    private readonly HttpClient _httpClient;
+    private readonly IFilesService _filesService;
+
+    public YourClass(HttpClient httpClient, IFilesService filesService)
+    {
+        _httpClient = httpClient;
+        _filesService = filesService;
+    }
+
+    public async Task TermsAndConditionsItemTappedAsync()
+    {
+        try
+        {
+            var content = await _httpClient.GetAsync(EnvironmentConfig.WebPDFUrl);
+
+            // Use a using statement to ensure the stream is disposed
+            var stream = new MemoryStream(await content.Content.ReadAsByteArrayAsync());
+            await _filesService.SaveAndViewPDF("GENERAL_T&Cs.pdf", stream, PDFOpenOption.InApp);
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Error downloading PDF: {ex.Message}");
+        }
+    }
+}
+
+public interface IFilesService
+{
+    Task SaveAndViewPDF(string fileName, Stream stream, PDFOpenOption option);
+}
+
+public enum PDFOpenOption
+{
+    InApp,
+    External
+}
+
+public static class EnvironmentConfig
+{
+    public static string WebPDFUrl => "https://example.com/yourpdf.pdf";
+}
+
