@@ -1,0 +1,16 @@
+public async Task TermsAndConditionsItemTappedAsync() 
+{ 
+try { 
+// Use HttpClient to create an instance of HttpClient 
+HttpClient httpClient = new HttpClient(); 
+var content = await httpClient.GetAsync(EnvironmentConfig.WebPDFUrl);\
+
+// Use a using statement to ensure the stream is disposed
+    var stream = new MemoryStream(await content.Content.ReadAsByteArrayAsync());
+    await _filesService.SaveAndViewPDF("GENERAL_T&Cs.pdf", stream, PDFOpenOption.InApp);
+}
+catch (HttpRequestException ex)
+{
+    Console.WriteLine($"Error downloading PDF: {ex.Message}");
+}
+}
