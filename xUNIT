@@ -1,3 +1,6 @@
+https://xamgirl.com/custom-renderers-vs-effects-in-xamarin-forms/.gitignore
+
+
 using Xunit;
 using Moq;
 using Microsoft.Maui.Controls;
