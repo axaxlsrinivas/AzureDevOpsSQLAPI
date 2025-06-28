@@ -1,2 +1,2 @@
 # AzureDevOpsSQLAPI
-SQL + WEB API + Test
+SQL + WEB API
